@@ -49,66 +49,75 @@ window.onload = () => {
 // ======================
 // MEMORY GAME
 // ======================
+document.addEventListener("DOMContentLoaded", () => {
 
-const memoryCards = ["🐶","🐶","🌴","🌴","🎁","🎁","☀️","☀️","🍓","🍓","🎂","🎂"];;
-let memoryGrid = document.getElementById("memoryGrid");
-let startMemory = document.getElementById("startMemory");
-let flipped = [];
-let matched = 0;
+    const memoryCards = ["🐶","🐶","🌴","🌴","🎁","🎁","☀️","☀️","🍓","🍓","🎂","🎂"];
+    const memoryGrid = document.getElementById("memoryGrid");
+    const startMemory = document.getElementById("startMemory");
+    const quizContainer = document.getElementById("quiz-container");
+    const memoryContainer = document.getElementById("memory-container");
 
-function shuffle(array) {
-    return array.sort(() => Math.random() - 0.5);
-}
+    let flipped = [];
+    let matched = 0;
 
-startMemory.addEventListener("click", () => {
-    document.querySelector(".images-top").style.display = "none";
-    memoryGrid.innerHTML = "";
-    const cards = shuffle(memoryCards);
-    cards.forEach((value) => {
-        const card = document.createElement("div");
-        card.classList.add("card");
-        card.dataset.value = value;
-        card.textContent = ""; // Text erst beim umdrehen
-        card.addEventListener("click", flipCard);
-        memoryGrid.appendChild(card);
+    function shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
+    }
+
+    startMemory.addEventListener("click", () => {
+        memoryGrid.innerHTML = "";
+        matched = 0;
+        flipped = [];
+
+        const cards = shuffle([...memoryCards]);
+
+        cards.forEach((value) => {
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.dataset.value = value;
+            card.textContent = "";
+
+            card.addEventListener("click", () => {
+                if (flipped.length === 2 || card.classList.contains("flipped")) return;
+
+                card.textContent = value;
+                card.classList.add("flipped");
+                flipped.push(card);
+
+                if (flipped.length === 2) {
+                    setTimeout(() => {
+                        const [a,b] = flipped;
+
+                        if (a.dataset.value === b.dataset.value) {
+                            matched += 2;
+                        } else {
+                            a.textContent = "";
+                            b.textContent = "";
+                            a.classList.remove("flipped");
+                            b.classList.remove("flipped");
+                        }
+
+                        flipped = [];
+
+                        if (matched === memoryCards.length) {
+                            setTimeout(() => {
+                                alert("Memory geschafft! 🎉");
+                                memoryContainer.style.display = "none";
+                                quizContainer.style.display = "block";
+                            }, 300);
+                        }
+
+                    }, 500);
+                }
+            });
+
+            memoryGrid.appendChild(card);
+        });
+
+        startMemory.style.display = "none"; // Button weg
     });
-    startMemory.style.display = "none"; // Button ausblenden
+
 });
-
-function flipCard() {
-    if (flipped.length === 2 || this.classList.contains("flipped")) return;
-
-    this.classList.add("flipped");
-    this.textContent = this.dataset.value;
-    flipped.push(this);
-
-    if (flipped.length === 2) {
-        setTimeout(checkMatch, 500);
-    }
-}
-
-function checkMatch() {
-    const [first, second] = flipped;
-    if (first.dataset.value === second.dataset.value) {
-        matched += 2;
-        first.style.background = "#7b64a5";
-        second.style.background = "#7b64a5";
-    } else {
-        first.classList.remove("flipped");
-        second.classList.remove("flipped");
-        first.textContent = "";
-        second.textContent = "";
-    }
-    flipped = [];
-
-    if (matched === memoryCards.length) {
-        setTimeout(() => {
-            alert("Memory abgeschlossen! 🎉 Jetzt geht's zum Quiz!");
-            document.getElementById("memory-container").style.display = "none";
-            document.getElementById("quiz-container").style.display = "block";
-        }, 300);
-    }
-}
 
 // ======================
 // QUIZ LOGIC (wie vorher)

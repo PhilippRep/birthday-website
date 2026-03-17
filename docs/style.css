@@ -97,13 +97,20 @@ pointer-events:none;
 
 .memory-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* flexible 3 Spalten */
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
-    max-width: 350px;    /* BONUS: passt sich kleinen Bildschirmen an */
-    margin: 20px auto;   /* BONUS: zentriert und Abstand oben/unten */
+    max-width: 350px;
+    margin: 20px auto;
 }
 
 .card {
     width: 100%;
-    aspect-ratio: 1;      /* quadratisch, passt sich Grid-Spalte an */
+    aspect-ratio: 1;
+    background: #cbb8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    border-radius: 12px;
+    cursor: pointer;
 }
