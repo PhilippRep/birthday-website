@@ -3,9 +3,9 @@
 // =======================
 
 const startImages = [
-    { src: "DSCF5081.jpg", style: { top:"200px", left:"50%", transform: "translateX(-50%)" } },
-    { src: "DSCF3972.jpg", style: { bottom: "285px", right: "625px", transform: "none" } },
-    { src: "DSCF2395.jpg", style: { bottom:"285px", left: "625px", transform: "none"} }
+    { src: "DSCF5081.jpg", styleClass: "img_top" },
+    { src: "DSCF3972.jpg", styleClass: "img_left" },
+    { src: "DSCF2395.jpg", styleClass: "img_right" }
 ];
 
 const endImages = [
@@ -21,21 +21,15 @@ const endImages = [
 
 function setImages(imageArray){
     const imgs = document.querySelectorAll(".images-top img");
-    const container = document.querySelector(".images-top");
-
-    container.style.display = "block"; // sicherstellen dass sichtbar ist
-
     imgs.forEach((img, index)=>{
         if(imageArray[index]){
             img.src = imageArray[index].src;
 
-            // Alle vorherigen Styles löschen
-            img.style = "";
+            // alte Klassen entfernen
+            img.className = "img";
 
-            // Neue Styles setzen
-            Object.keys(imageArray[index].style).forEach(key=>{
-                img.style[key] = imageArray[index].style[key];
-            });
+            // neue Klassen hinzufügen
+            img.classList.add(imageArray[index].styleClass);
         }
     });
 }

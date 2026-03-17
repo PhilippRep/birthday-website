@@ -40,28 +40,28 @@ button:hover{
 background:#b29cff;
 }
 
-.img{
-    position:absolute;
-    width:120px;
-    height:200px;
-    object-fit:cover;
-    border-radius:12px;
-    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+.img {
+    position: absolute;
+    z-index: 10;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
-.img_top{
-    top:200px;
-    left:900px;
+.img_top {
+    top: 200px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-.img_right{
-    top:450px;
-    right:625px;
+.img_left {
+    bottom: 20px;
+    left: 20px;
 }
 
-.img_left{
-    top:450px;
-    left:625px;
+.img_right {
+    bottom: 20px;
+    right: 20px;
 }
 
 }
