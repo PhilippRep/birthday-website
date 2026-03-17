@@ -25,10 +25,10 @@ function setImages(imageArray){
         if(imageArray[index]){
             img.src = imageArray[index].src;
 
-            // alte Klassen entfernen
+            // Klassen zurücksetzen
             img.className = "img";
 
-            // neue Klassen hinzufügen
+            // neue Position-Klasse setzen
             img.classList.add(imageArray[index].styleClass);
         }
     });
