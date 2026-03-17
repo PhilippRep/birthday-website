@@ -39,21 +39,23 @@ transition:0.2s;
 button:hover{
 background:#b29cff;
 }
-
 .images-top {
-    position: relative;  /* Bezugspunkt für absolute Bilder */
-    width: 100%;
-    height: 100vh;       /* volle Höhe des Viewports */
+    position: absolute;   /* über Container legen */
+    top: 0;
+    left: 0;
+    width: 100vw;         /* ganze Breite */
+    height: 100vh;        /* ganze Höhe des Bildschirms */
+    pointer-events: none; /* damit Klicks auf Container gehen */
+    z-index: 5;           /* hinter Buttons/Container, aber über Hintergrund */
 }
 
 .img {
     position: absolute;
-    width: 120px;        /* feste Breite, responsive kann auch % sein */
+    width: 120px;         /* oder % für responsive */
     height: auto;
     object-fit: cover;
     border-radius: 12px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    z-index: 10;
 }
 
 .img_top {

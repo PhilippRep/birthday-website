@@ -24,11 +24,7 @@ function setImages(imageArray){
     imgs.forEach((img, index)=>{
         if(imageArray[index]){
             img.src = imageArray[index].src;
-
-            // Klassen zurücksetzen
-            img.className = "img";
-
-            // neue Position-Klasse setzen
+            img.className = "img";  // alte Klassen löschen
             img.classList.add(imageArray[index].styleClass);
         }
     });
