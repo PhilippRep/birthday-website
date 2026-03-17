@@ -92,6 +92,42 @@ function answer(index){
     }
 }
 
+function startMemory(){
+    const cards = ["🍎","🍌","🍎","🍌"]; // Emoji als Beispiel
+    let shuffled = cards.sort(() => 0.5 - Math.random());
+    let flipped = [];
+    let matched = [];
+
+    let html = "<div class='memory-grid'>";
+    shuffled.forEach((card, i) => {
+        html += `<div class='card' data-index='${i}' onclick='flipCard(${i})'></div>`;
+    });
+    html += "</div>";
+    document.getElementById("screen").innerHTML = html;
+
+    window.flipCard = function(i){
+        if(flipped.length >= 2 || matched.includes(i)) return;
+
+        flipped.push(i);
+        document.querySelectorAll(".card")[i].textContent = shuffled[i];
+
+        if(flipped.length === 2){
+            if(shuffled[flipped[0]] === shuffled[flipped[1]]){
+                matched.push(flipped[0], flipped[1]);
+                flipped = [];
+                if(matched.length === shuffled.length){
+                    alert("Alle Paare gefunden 🎉");
+                }
+            } else {
+                setTimeout(()=>{
+                    flipped.forEach(idx => document.querySelectorAll(".card")[idx].textContent = "");
+                    flipped = [];
+                }, 800);
+            }
+        }
+    }
+}
+
 function reveal(){
     launchConfetti();
 

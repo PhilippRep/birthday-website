@@ -86,3 +86,23 @@ top:0;
 left:0;
 pointer-events:none;
 }ue)
+
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 100px);
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.card {
+    width: 100px;
+    height: 100px;
+    background: #cbb8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    border-radius: 12px;
+    cursor: pointer;
+}

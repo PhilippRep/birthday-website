@@ -1,60 +1,50 @@
 // =======================
-// 📸 BILDER HIER ÄNDERN
+// 🎮 GAME FLOW
 // =======================
 
-const startImages = [
-    { src: "DSCF5081.jpg", styleClass: "img_top" },
-    { src: "DSCF3972.jpg", styleClass: "img_right" },
-    { src: "DSCF2395.jpg", styleClass: "img_left" }
+let gameFlow = [
+    { type: "quiz" },
+    { type: "memory" },
+    { type: "reaction" },
+    { type: "quiz" } // weitere Quiz-Runde möglich
 ];
 
-const endImages = [
-    { src: "end1.jpg", style: { top:"30px", left:"50%", transform:"translateX(-50%) rotate(3deg)" } },
-    { src: "end2.jpg", style: { bottom:"50px", right:"40px", transform:"rotate(-6deg)" } },
-    { src: "end3.jpg", style: { top:"200px", left:"30px", transform:"rotate(5deg)" } }
-];
-
+let flowIndex = 0;
 
 // =======================
-// 🔹 FUNKTION: Bilder setzen
+// 📌 START FUNCTION
 // =======================
 
-function setImages(imageArray){
-    const imgs = document.querySelectorAll(".images-top img");
-    imgs.forEach((img, index)=>{
-        if(imageArray[index]){
-            img.src = imageArray[index].src;
-            img.className = "img";  // alte Klassen löschen
-            img.classList.add(imageArray[index].styleClass);
-        }
-    });
+function startNext(){
+    if(flowIndex >= gameFlow.length){
+        reveal(); // alles geschafft
+        return;
+    }
+
+    const step = gameFlow[flowIndex];
+    flowIndex++;
+
+    switch(step.type){
+        case "quiz":
+            current = 0;
+            showQuestion();
+            break;
+        case "memory":
+            startMemory();
+            break;
+        case "reaction":
+            startReactionGame();
+            break;
+    }
 }
 
 // =======================
-// 🔹 START
-// =======================
-
-window.onload = () => {
-    setImages(startImages);
-};
-
-// =======================
-// 🔹 QUIZ START
-// =======================
-
-function startQuiz(){
-    document.querySelector(".images-top").style.display = "none";
-    showQuestion();
-}
-
-// =======================
-// ❓ Quiz + Reveal (wie gehabt)
+// ❓ QUIZ
 // =======================
 
 let questions = [
     { q:"Wie heißt die Hauptstadt von Irland?", a:["Belfast","Dublin","Cork"], correct:1 },
     { q:"In welchem Land liegt Stonehenge?", a:["Irland","England","Schottland"], correct:1 },
-    { q:"Welche Farbe hat die irische Flagge NICHT?", a:["Orange","Grün","Blau"], correct:2 },
     { q:"Welche Farbe hat die irische Flagge NICHT?", a:["Orange","Grün","Blau"], correct:2 }
 ];
 
@@ -73,7 +63,7 @@ function answer(index){
     if(index === questions[current].correct){
         current++;
         if(current >= questions.length){
-            reveal();
+            startNext(); // weiter zum nächsten Flow-Step
         } else {
             showQuestion();
         }
@@ -82,37 +72,138 @@ function answer(index){
     }
 }
 
+// =======================
+// 🃏 MEMORY GAME
+// =======================
+
+function startMemory(){
+    const cards = ["🍎","🍌","🍎","🍌"]; // Beispiel-Emojis, anpassen
+    let shuffled = cards.sort(() => 0.5 - Math.random());
+    let flipped = [];
+    let matched = [];
+
+    let html = "<div class='memory-grid'>";
+    shuffled.forEach((card,i)=>{
+        html += `<div class='card' data-index='${i}' onclick='flipCard(${i})'></div>`;
+    });
+    html += "</div>";
+    document.getElementById("screen").innerHTML = html;
+
+    window.flipCard = function(i){
+        if(flipped.length >= 2 || matched.includes(i)) return;
+
+        flipped.push(i);
+        document.querySelectorAll(".card")[i].textContent = shuffled[i];
+
+        if(flipped.length === 2){
+            if(shuffled[flipped[0]] === shuffled[flipped[1]]){
+                matched.push(flipped[0], flipped[1]);
+                flipped = [];
+                if(matched.length === shuffled.length){
+                    alert("Memory abgeschlossen 🎉");
+                    startNext();
+                }
+            } else {
+                setTimeout(()=>{
+                    flipped.forEach(idx => document.querySelectorAll(".card")[idx].textContent = "");
+                    flipped = [];
+                }, 800);
+            }
+        }
+    }
+}
+
+// =======================
+// ⏱ REACTION GAME
+// =======================
+
+function startReactionGame(){
+    document.getElementById("screen").innerHTML = `
+        <h2>Klicke so schnell du kannst!</h2>
+        <button id="startReaction">Start</button>
+        <div id="circle" style="display:none;width:100px;height:100px;background:#cbb8ff;border-radius:50%;position:absolute;"></div>
+    `;
+
+    let startTime;
+    const circle = document.getElementById("circle");
+
+    document.getElementById("startReaction").onclick = ()=>{
+        document.getElementById("startReaction").style.display="none";
+        setTimeout(()=>{
+            const x = Math.random()*(window.innerWidth-100);
+            const y = Math.random()*(window.innerHeight-100);
+            circle.style.left = x+"px";
+            circle.style.top = y+"px";
+            circle.style.display = "block";
+            startTime = Date.now();
+        }, 1000 + Math.random()*2000);
+    }
+
+    circle.onclick = ()=>{
+        const time = Date.now()-startTime;
+        alert(`Super! Deine Reaktionszeit: ${time}ms`);
+        startNext();
+    }
+}
+
+// =======================
+// 🎨 START & END IMAGES
+// =======================
+
+const startImages = [
+    { src: "DSCF5081.jpg", styleClass: "img_top" },
+    { src: "DSCF3972.jpg", styleClass: "img_left" },
+    { src: "DSCF2395.jpg", styleClass: "img_right" }
+];
+
+const endImages = [
+    { src: "end1.jpg", styleClass: "img_top" },
+    { src: "end2.jpg", styleClass: "img_left" },
+    { src: "end3.jpg", styleClass: "img_right" }
+];
+
+function setImages(imageArray){
+    const imgs = document.querySelectorAll(".images-top img");
+    imgs.forEach((img,index)=>{
+        if(imageArray[index]){
+            img.src = imageArray[index].src;
+            img.className = "img";  // alte Klassen löschen
+            img.classList.add(imageArray[index].styleClass);
+        }
+    });
+}
+
+// =======================
+// 🎉 REVEAL / SURPRISE
+// =======================
+
 function reveal(){
     launchConfetti();
-
     document.querySelector(".images-top").style.display = "block";
     setImages(endImages);
 
     document.getElementById("screen").innerHTML = `
         <h2>Überraschung 🎉</h2>
-
         <div class="ticket">
             <h3>2x Ticket für Calum Scott</h3>
             <p>Live in Leipzig 🎤</p>
             <p>Mit einem deiner Lieblingsmenschen ❤️</p>
         </div>
-
-        <img class="poster" src="ticket.jpg">
         <p>Happy Birthday, Julchen 💜</p>
-`;
+    `;
 
     startSong();
 }
 
 // =======================
-// 🔹 Musik & Confetti (wie vorher)
+// 🎵 MUSIC & CONFETTI
 // =======================
 
 function startSong(){
     let song = document.getElementById("song");
     if(song){
-        song.currentTime = 3; // start bei 0:03
-        song.play().catch(()=>{}); // spielt bis zum Ende
+        song.currentTime = 3; // Start bei 0:03
+        song.play().catch(()=>{});
     }
 }
 
@@ -140,3 +231,12 @@ function launchConfetti(){
 
     update();
 }
+
+// =======================
+// 🚀 START GAME AUTOMATISCH
+// =======================
+
+window.onload = ()=>{
+    document.querySelector(".images-top").style.display = "block";
+    setImages(startImages);
+};
