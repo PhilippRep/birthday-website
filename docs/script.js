@@ -3,15 +3,15 @@
 // =======================
 
 const startImages = [
-    { src: "/docs/DSCF5081.jpg", style: { top:"20px", left:"20px", transform:"rotate(-5deg)" } },
-    { src: "/docs/DSCF3972.jpg", style: { top:"40px", right:"20px", transform:"rotate(8deg)" } },
-    { src: "/docs/DSCF2395.jpg", style: { bottom:"20px", left:"50%", transform:"translateX(-50%) rotate(-3deg)" } }
+    { src: "/static/DSCF5081.jpg", style: { top:"20px", left:"20px", transform:"rotate(-5deg)" } },
+    { src: "/static/DSCF3972.jpg", style: { top:"40px", right:"20px", transform:"rotate(8deg)" } },
+    { src: "/static/DSCF2395.jpg", style: { bottom:"20px", left:"50%", transform:"translateX(-50%) rotate(-3deg)" } }
 ];
 
 const endImages = [
-    { src: "/docs/end1.jpg", style: { top:"30px", left:"50%", transform:"translateX(-50%) rotate(3deg)" } },
-    { src: "/docs/end2.jpg", style: { bottom:"50px", right:"40px", transform:"rotate(-6deg)" } },
-    { src: "/docs/end3.jpg", style: { top:"200px", left:"30px", transform:"rotate(5deg)" } }
+    { src: "/static/end1.jpg", style: { top:"30px", left:"50%", transform:"translateX(-50%) rotate(3deg)" } },
+    { src: "/static/end2.jpg", style: { bottom:"50px", right:"40px", transform:"rotate(-6deg)" } },
+    { src: "/static/end3.jpg", style: { top:"200px", left:"30px", transform:"rotate(5deg)" } }
 ];
 
 
