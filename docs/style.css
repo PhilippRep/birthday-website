@@ -36,8 +36,8 @@ cursor:pointer;
 transition:0.2s;
 }
 
-button:hover{
-background:#b29cff;
+button:active {
+    background:#b29cff;
 }
 .images-top {
     position: absolute;   /* über Container legen */
@@ -93,4 +93,17 @@ position:fixed;
 top:0;
 left:0;
 pointer-events:none;
-}ue)
+}
+
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* flexible 3 Spalten */
+    gap: 10px;
+    max-width: 350px;    /* BONUS: passt sich kleinen Bildschirmen an */
+    margin: 20px auto;   /* BONUS: zentriert und Abstand oben/unten */
+}
+
+.card {
+    width: 100%;
+    aspect-ratio: 1;      /* quadratisch, passt sich Grid-Spalte an */
+}

@@ -85,16 +85,16 @@ position:fixed;
 top:0;
 left:0;
 pointer-events:none;
-}ue)
+}
 
 .memory-grid {
     display: grid;
-    grid-template-columns: repeat(2, 100px);
+    grid-template-columns: repeat(3, 100px);
     gap: 10px;
-    justify-content: center;
     margin-top: 20px;
-}
 
+    margin-left: 35px; /* 👉 nach rechts schieben */
+}
 .card {
     width: 100px;
     height: 100px;

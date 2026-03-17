@@ -46,40 +46,97 @@ function setImages(imageArray){
 
 window.onload = () => {
     setImages(startImages);
-};
+}
+// ======================
+// MEMORY GAME
+// ======================
 
-// =======================
-// 🔹 QUIZ START
-// =======================
+const memoryCards = ["🐶","🐶","🌴","🌴","🎁","🎁","☀️","☀️","🍓","🍓","🎂","🎂"];;
+let memoryGrid = document.getElementById("memoryGrid");
+let startMemory = document.getElementById("startMemory");
+let flipped = [];
+let matched = 0;
 
-function startQuiz(){
-    document.querySelector(".images-top").style.display = "none";
-    showQuestion();
+function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
 }
 
-// =======================
-// ❓ Quiz + Reveal (wie gehabt)
-// =======================
+startMemory.addEventListener("click", () => {
+    document.querySelector(".images-top").style.display = "none";
+    memoryGrid.innerHTML = "";
+    const cards = shuffle(memoryCards);
+    cards.forEach((value) => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.dataset.value = value;
+        card.textContent = ""; // Text erst beim umdrehen
+        card.addEventListener("click", flipCard);
+        memoryGrid.appendChild(card);
+    });
+    startMemory.style.display = "none"; // Button ausblenden
+});
+
+function flipCard() {
+    if (flipped.length === 2 || this.classList.contains("flipped")) return;
+
+    this.classList.add("flipped");
+    this.textContent = this.dataset.value;
+    flipped.push(this);
+
+    if (flipped.length === 2) {
+        setTimeout(checkMatch, 500);
+    }
+}
+
+function checkMatch() {
+    const [first, second] = flipped;
+    if (first.dataset.value === second.dataset.value) {
+        matched += 2;
+        first.style.background = "#7b64a5";
+        second.style.background = "#7b64a5";
+    } else {
+        first.classList.remove("flipped");
+        second.classList.remove("flipped");
+        first.textContent = "";
+        second.textContent = "";
+    }
+    flipped = [];
+
+    if (matched === memoryCards.length) {
+        setTimeout(() => {
+            alert("Memory abgeschlossen! 🎉 Jetzt geht's zum Quiz!");
+            document.getElementById("memory-container").style.display = "none";
+            document.getElementById("quiz-container").style.display = "block";
+        }, 300);
+    }
+}
+
+// ======================
+// QUIZ LOGIC (wie vorher)
+// ======================
 
 let questions = [
     { q:"Wie heißt die Hauptstadt von Irland?", a:["Belfast","Dublin","Cork"], correct:1 },
     { q:"In welchem Land liegt Stonehenge?", a:["Irland","England","Schottland"], correct:1 },
-    { q:"Welche Farbe hat die irische Flagge NICHT?", a:["Orange","Grün","Blau"], correct:2 },
     { q:"Welche Farbe hat die irische Flagge NICHT?", a:["Orange","Grün","Blau"], correct:2 }
 ];
 
 let current = 0;
 
-function showQuestion(){
+function startQuiz() {
+    showQuestion();
+}
+
+function showQuestion() {
     let q = questions[current];
     let html = `<h2>${q.q}</h2>`;
-    q.a.forEach((answer,index)=>{
+    q.a.forEach((answer,index) => {
         html += `<button onclick="answer(${index})">${answer}</button>`;
     });
     document.getElementById("screen").innerHTML = html;
 }
 
-function answer(index){
+function answer(index) {
     if(index === questions[current].correct){
         current++;
         if(current >= questions.length){
@@ -92,40 +149,12 @@ function answer(index){
     }
 }
 
-function startMemory(){
-    const cards = ["🍎","🍌","🍎","🍌"]; // Emoji als Beispiel
-    let shuffled = cards.sort(() => 0.5 - Math.random());
-    let flipped = [];
-    let matched = [];
-
-    let html = "<div class='memory-grid'>";
-    shuffled.forEach((card, i) => {
-        html += `<div class='card' data-index='${i}' onclick='flipCard(${i})'></div>`;
-    });
-    html += "</div>";
-    document.getElementById("screen").innerHTML = html;
-
-    window.flipCard = function(i){
-        if(flipped.length >= 2 || matched.includes(i)) return;
-
-        flipped.push(i);
-        document.querySelectorAll(".card")[i].textContent = shuffled[i];
-
-        if(flipped.length === 2){
-            if(shuffled[flipped[0]] === shuffled[flipped[1]]){
-                matched.push(flipped[0], flipped[1]);
-                flipped = [];
-                if(matched.length === shuffled.length){
-                    alert("Alle Paare gefunden 🎉");
-                }
-            } else {
-                setTimeout(()=>{
-                    flipped.forEach(idx => document.querySelectorAll(".card")[idx].textContent = "");
-                    flipped = [];
-                }, 800);
-            }
-        }
-    }
+function reveal(){
+    launchConfetti();
+    document.getElementById("screen").innerHTML=`
+        <h2>Überraschung 🎉</h2>
+        <p>Happy Birthday 💜</p>
+    `;
 }
 
 function reveal(){
