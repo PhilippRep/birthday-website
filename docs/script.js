@@ -3,9 +3,9 @@
 // =======================
 
 const startImages = [
-    { src: "DSCF5081.JPG", style: { top:"20px", left:"20px", transform:"rotate(-5deg)" } },
-    { src: "DSCF3972.jpg", style: { top:"40px", right:"20px", transform:"rotate(8deg)" } },
-    { src: "DSCF2395.jpg", style: { bottom:"20px", left:"50%", transform:"translateX(-50%) rotate(-3deg)" } }
+    { src: "/static/DSCF5081.jpg", style: { top:"200px", left:"50%", transform: "translateX(-50%)" } },
+    { src: "/static/DSCF3972.jpg", style: { bottom: "285px", right: "625px", transform: "none" } },
+    { src: "/static/DSCF2395.jpg", style: { bottom:"285px", left: "625px", transform: "none"} }
 ];
 
 const endImages = [
