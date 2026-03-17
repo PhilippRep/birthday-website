@@ -4,8 +4,8 @@
 
 const startImages = [
     { src: "DSCF5081.jpg", styleClass: "img_top" },
-    { src: "DSCF3972.jpg", styleClass: "img_left" },
-    { src: "DSCF2395.jpg", styleClass: "img_right" }
+    { src: "DSCF3972.jpg", styleClass: "img_right" },
+    { src: "DSCF2395.jpg", styleClass: "img_left" }
 ];
 
 const endImages = [
