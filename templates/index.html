@@ -6,7 +6,7 @@
 
     <title>Birthday Quest</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('docs', filename='style.css') }}">
 </head>
 
 <body>
@@ -28,13 +28,13 @@
 </div>
 
 <audio id="song">
-    <source src="{{ url_for('static', filename='Calum-Scott.mp3') }}" type="audio/mpeg">
+    <source src="{{ url_for('docs', filename='Calum-Scott.mp3') }}" type="audio/mpeg">
 </audio>
 
 <script>
-    const posterPath = "{{ url_for('static', filename='ticket.jpg') }}";
+    const posterPath = "{{ url_for('docs', filename='ticket.jpg') }}";
 </script>
-<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script src="{{ url_for('docs', filename='script.js') }}"></script>
 
 </body>
 </html>
