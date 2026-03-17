@@ -1,52 +1,57 @@
-/* ======================= */
-/* 🌟 GLOBAL STYLES */
-/* ======================= */
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    background: #f0ebff;
-    color: #333;
-    overflow-x: hidden;
+body{
+margin:0;
+font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+background:linear-gradient(135deg,#f3e8dc,#e7dcff);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:20px;
 }
 
-h1, h2, h3 {
-    text-align: center;
-    color: #4b2cbf;
+.container{
+width:100%;
+max-width:390px;
+background:white;
+padding:25px;
+border-radius:24px;
+box-shadow:0 20px 40px rgba(0,0,0,0.15);
+text-align:center;
 }
 
-button {
-    cursor: pointer;
-    padding: 10px 20px;
-    margin: 10px;
-    border: none;
-    background-color: #cbb8ff;
-    color: #fff;
-    font-size: 1em;
-    border-radius: 8px;
-    transition: background 0.2s;
+h1{
+color:#7b64a5;
 }
 
-button:hover {
-    background-color: #a88fff;
+button{
+padding:15px;
+margin:8px 0;
+width:100%;
+border:none;
+border-radius:14px;
+background:#cbb8ff;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.2s;
 }
 
-/* ======================= */
-/* 🎨 IMAGE STYLES */
-/* ======================= */
+button:hover{
+background:#b29cff;
+}
 .images-top {
-    position: absolute; /* über Container */
+    position: absolute;   /* über Container legen */
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none; /* Klicks passieren durch */
-    z-index: 5;
+    width: 100vw;         /* ganze Breite */
+    height: 100vh;        /* ganze Höhe des Bildschirms */
+    pointer-events: none; /* damit Klicks auf Container gehen */
+    z-index: 5;           /* hinter Buttons/Container, aber über Hintergrund */
 }
 
 .img {
     position: absolute;
-    width: 120px; /* oder % für responsive */
+    width: 120px;         /* oder % für responsive */
     height: auto;
     object-fit: cover;
     border-radius: 12px;
@@ -69,104 +74,23 @@ button:hover {
     right: 10%;
 }
 
-/* ======================= */
-/* 📦 CONTAINER & SCREEN */
-/* ======================= */
-.container {
-    position: relative;
-    z-index: 10; /* über images-top */
-    max-width: 900px;
-    width: 90%;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
+.ticket{
+background:#f6efe5;
+padding:20px;
+border-radius:16px;
+margin-top:15px;
+box-shadow:0 10px 20px rgba(0,0,0,0.15);
 }
 
-#screen {
-    margin-top: 20px;
+.poster{
+width:100%;
+border-radius:15px;
+margin-top:15px;
 }
 
-/* ======================= */
-/* 🃏 MEMORY GAME */
-/* ======================= */
-.memory-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 120px);
-    gap: 10px;
-    justify-content: center;
-    margin: 20px auto;
-}
-
-.card {
-    width: 120px;
-    height: 120px;
-    background: #cbb8ff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2em;
-    border-radius: 12px;
-    cursor: pointer;
-    user-select: none;
-}
-
-/* ======================= */
-/* ⏱ REACTION GAME */
-/* ======================= */
-#circle {
-    cursor: pointer;
-}
-
-/* ======================= */
-/* 🎟 REVEAL SECTION */
-/* ======================= */
-.ticket {
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 400px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    text-align: center;
-}
-
-.poster {
-    display: block;
-    max-width: 90%;
-    height: auto;
-    margin: 20px auto;
-}
-
-/* ======================= */
-/* 🎉 CONFETTI CANVAS */
-/* ======================= */
-#confetti {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 100;
-}
-
-/* ======================= */
-/* 📱 RESPONSIVE ANPASSUNGEN */
-/* ======================= */
-@media (max-width: 600px){
-    .img {
-        width: 80px;
-    }
-    .memory-grid {
-        grid-template-columns: repeat(2, 80px);
-    }
-    .card {
-        width: 80px;
-        height: 80px;
-        font-size: 1.5em;
-    }
-    .ticket {
-        padding: 15px;
-        max-width: 300px;
-    }
-}
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+}ue)
