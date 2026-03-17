@@ -1,0 +1,140 @@
+from flask import Flask, render_template_string
+
+app = Flask(__name__)
+
+html = """
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>Birthday Quest</title>
+
+<style>
+
+body{
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+background:linear-gradient(135deg,#f3e8dc,#e7dcff);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+overflow:hidden;
+}
+
+/* Bilder außerhalb */
+
+.photo{
+
+position:absolute;
+width:90px;
+height:90px;
+border-radius:18px;
+object-fit:cover;
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+
+}
+
+/* Positionen */
+
+.photo-top{
+
+top:40px;
+left:50%;
+transform:translateX(-50%);
+
+}
+
+.photo-left{
+
+left:15px;
+top:45%;
+
+}
+
+.photo-right{
+
+right:15px;
+top:45%;
+
+}
+
+/* Hauptcontainer */
+
+.container{
+
+width:85%;
+max-width:360px;
+background:white;
+padding:25px;
+border-radius:26px;
+box-shadow:0 20px 40px rgba(0,0,0,0.15);
+text-align:center;
+
+}
+
+h1{
+color:#7b64a5;
+}
+
+button{
+
+padding:14px;
+margin:8px 0;
+width:100%;
+border:none;
+border-radius:14px;
+background:#cbb8ff;
+color:white;
+font-size:16px;
+cursor:pointer;
+
+}
+
+button:hover{
+background:#b29cff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Bilder deiner Freundin -->
+
+<img class="photo photo-top" src="IMAGE_TOP">
+
+<img class="photo photo-left" src="IMAGE_LEFT">
+
+<img class="photo photo-right" src="IMAGE_RIGHT">
+
+<div class="container">
+
+<h1>Birthday Quest 💜</h1>
+
+<div id="screen">
+
+<p>Eine kleine Mission für dich 😏</p>
+
+<button onclick="startQuiz()">Start</button>
+
+</div>
+
+</div>
+
+</body>
+</html>
+
+"""
+
+@app.route("/")
+def home():
+    return render_template_string(html)
+
+if __name__ == "__main__":
+    app.run(debug=True)

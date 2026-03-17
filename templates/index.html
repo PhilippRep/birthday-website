@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Birthday Quest</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="images-top">
+    <img class="img">
+    <img class="img">
+    <img class="img">
+</div>
+
+<div class="container">
+    <h1>Birthday Quest 💜</h1>
+    <div id="screen">
+        <p>Eine kleine Mission für dich 😏</p>
+        <button onclick="startQuiz()">Start</button>
+    </div>
+</div>
+
+<audio id="song">
+    <source src="{{ url_for('static', filename='Calum-Scott.mp3') }}" type="audio/mpeg">
+</audio>
+
+<script>
+    const posterPath = "{{ url_for('static', filename='ticket.jpg') }}";
+</script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
