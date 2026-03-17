@@ -16,7 +16,7 @@ docs/ ← Hauptordner für GitHub Pages
 ├─ script.js ← Logik für Quiz, Bilder und Musik
 ├─ [BILDER].jpg ← Platzhalter für eigene Bilder
 ├─ poster.jpg ← Poster oder Bild für Überraschung
-└─ Calum-Scott.mp3 ← Platzhalter für Musik
+└─ song.mp3 ← Platzhalter für Musik
 
 
 ---
@@ -28,7 +28,7 @@ docs/ ← Hauptordner für GitHub Pages
    - Passe die Arrays `startImages` und `endImages` in `script.js` an, damit die richtigen Bilder angezeigt werden.
 
 2. **Musik austauschen**  
-   - Ersetze `Calum-Scott.mp3` durch deine eigene MP3-Datei.  
+   - Ersetze `song.mp3` durch deine eigene MP3-Datei.  
    - Passe den Pfad in `index.html` an:
 
 ```html
