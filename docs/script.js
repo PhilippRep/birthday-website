@@ -3,9 +3,33 @@
 // =======================
 
 const startImages = [
-    { src: "DSCF5081.jpg", style: { top:"10%", left:"50%", transform:"translateX(-50%)" } },
-    { src: "DSCF3972.jpg", style: { bottom:"10%", right:"10%" } },
-    { src: "DSCF2395.jpg", style: { bottom:"10%", left:"10%" } }
+    // 🔝 OBEN MITTE
+    {
+        src: "DSCF5081.jpg",
+        style: {
+            top: "0%",
+            left: "50%",
+            transform: "translateX(-50%)"
+        }
+    },
+
+    // ↙️ UNTEN LINKS
+    {
+        src: "DSCF3972.jpg",
+        style: {
+            bottom: "0%",
+            left: "5%"
+        }
+    },
+
+    // ↘️ UNTEN RECHTS
+    {
+        src: "DSCF2395.jpg",
+        style: {
+            bottom: "0%",
+            right: "5%"
+        }
+    }
 ];
 
 
