@@ -19,9 +19,21 @@
     <img class="img">
 </div>
 
-<!-- MEMORY -->
-<div class="container" id="memory-container">
+<div class="container" id="start-container">
+    <h1>Birthday Quest 💜</h1>
+    <p><b>Alles Liebe und Gute zu deinem Geburtstag, Süße!</b> Zu deinem
+        Ehrentag hast du natürlich etwas ganz besonderes verdient.
+        Daher bekommst du nicht nur ein Geschenk.
+        Ich habe hier etwas für dich vorbereitet 😏 Dein Geschenk erhälst du,
+        wenn du alles abgeschlossen hast.
+        Ein besonderes Geburtsgags-Adventure nur für Dich von mir entwickelt.</p>
+    <button onclick="goToMemory()">Los geht's 🎉</button>
+</div>
+
+<!-- MEMORY GAME -->
+<div class="container" id="memory-container" style="display:none;">
     <h1>Memory Game 💜</h1>
+    <p>Finde alle Paare 😈</p>
     <div class="memory-grid" id="memoryGrid"></div>
     <button id="startMemory">Start Memory</button>
 </div>
@@ -35,12 +47,12 @@
     </div>
 </div>
 
-<audio id="song" style="display:none">
+<audio id="song">
     <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-    const posterPath = "ticket.jpg";
+    const posterPath = "{{ url_for('static', filename='ticket.jpg') }}";
 </script>
 <script src="script.js"></script>
 

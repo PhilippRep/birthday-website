@@ -36,42 +36,34 @@ cursor:pointer;
 transition:0.2s;
 }
 
-button:active {
-    background:#b29cff;
-}
-.images-top {
-    position: absolute;   /* über Container legen */
-    top: 0;
-    left: 0;
-    width: 100vw;         /* ganze Breite */
-    height: 100vh;        /* ganze Höhe des Bildschirms */
-    pointer-events: none; /* damit Klicks auf Container gehen */
-    z-index: 5;           /* hinter Buttons/Container, aber über Hintergrund */
+button:hover{
+background:#b29cff;
 }
 
-.img {
-    position: absolute;
-    width: 120px;         /* oder % für responsive */
-    height: auto;
-    object-fit: cover;
-    border-radius: 12px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+.img{
+    position:absolute;
+    width:120px;
+    height:200px;
+    object-fit:cover;
+    border-radius:12px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
 }
 
-.img_top {
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
+.img_top{
+    top:200px;
+    left:900px;
 }
 
-.img_left {
-    bottom: 10%;
-    left: 10%;
+.img_right{
+    top:450px;
+    right:625px;
 }
 
-.img_right {
-    bottom: 10%;
-    right: 10%;
+.img_left{
+    top:450px;
+    left:625px;
+}
+
 }
 
 .ticket{
@@ -97,15 +89,15 @@ pointer-events:none;
 
 .memory-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 100px);
     gap: 10px;
-    max-width: 350px;
-    margin: 20px auto;
-}
+    margin-top: 20px;
 
+    margin-left: 35px; /* 👉 nach rechts schieben */
+}
 .card {
-    width: 100%;
-    aspect-ratio: 1;
+    width: 100px;
+    height: 100px;
     background: #cbb8ff;
     display: flex;
     justify-content: center;

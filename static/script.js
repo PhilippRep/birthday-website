@@ -8,12 +8,6 @@ const startImages = [
     { src: "/static/DSCF2395.jpg", style: { bottom:"285px", left: "625px", transform: "none"} }
 ];
 
-const endImages = [
-    { src: "/static/end1.jpg", style: { top:"30px", left:"50%", transform:"translateX(-50%) rotate(3deg)" } },
-    { src: "/static/end2.jpg", style: { bottom:"50px", right:"40px", transform:"rotate(-6deg)" } },
-    { src: "/static/end3.jpg", style: { top:"200px", left:"30px", transform:"rotate(5deg)" } }
-];
-
 
 // =======================
 // 🔹 FUNKTION: Bilder setzen
@@ -61,19 +55,30 @@ function shuffle(array) {
     return array.sort(() => Math.random() - 0.5);
 }
 
-startMemory.addEventListener("click", () => {
-    document.querySelector(".images-top").style.display = "none";
-    memoryGrid.innerHTML = "";
-    const cards = shuffle(memoryCards);
-    cards.forEach((value) => {
-        const card = document.createElement("div");
-        card.classList.add("card");
-        card.dataset.value = value;
-        card.textContent = ""; // Text erst beim umdrehen
-        card.addEventListener("click", flipCard);
-        memoryGrid.appendChild(card);
+document.addEventListener("DOMContentLoaded", () => {
+
+    let memoryGrid = document.getElementById("memoryGrid");
+    let startMemory = document.getElementById("startMemory");
+
+    startMemory.addEventListener("click", () => {
+
+        document.querySelector(".images-top").style.display = "none";
+        memoryGrid.innerHTML = "";
+
+        const cards = shuffle(memoryCards);
+
+        cards.forEach((value) => {
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.dataset.value = value;
+            card.textContent = "";
+            card.addEventListener("click", flipCard);
+            memoryGrid.appendChild(card);
+        });
+
+        startMemory.style.display = "none";
     });
-    startMemory.style.display = "none"; // Button ausblenden
+
 });
 
 function flipCard() {
@@ -107,6 +112,9 @@ function checkMatch() {
             alert("Memory abgeschlossen! 🎉 Jetzt geht's zum Quiz!");
             document.getElementById("memory-container").style.display = "none";
             document.getElementById("quiz-container").style.display = "block";
+
+            startQuiz();
+
         }, 300);
     }
 }
@@ -118,7 +126,9 @@ function checkMatch() {
 let questions = [
     { q:"Wie heißt die Hauptstadt von Irland?", a:["Belfast","Dublin","Cork"], correct:1 },
     { q:"In welchem Land liegt Stonehenge?", a:["Irland","England","Schottland"], correct:1 },
-    { q:"Welche Farbe hat die irische Flagge NICHT?", a:["Orange","Grün","Blau"], correct:2 }
+    { q:"Welche Farbe hat die irische Flagge NICHT?", a:["Orange","Grün","Blau"], correct:2 },
+    { q:"Du hast dir nun dein Geschenk verdient!", a:["Ruf Philipp 🗣️📢"], correct:0 },
+    { q:"Hier gehts zum Geschenk?", a:["Klick hier"], correct:0 }
 ];
 
 let current = 0;
@@ -151,17 +161,7 @@ function answer(index) {
 
 function reveal(){
     launchConfetti();
-    document.getElementById("screen").innerHTML=`
-        <h2>Überraschung 🎉</h2>
-        <p>Happy Birthday 💜</p>
-    `;
-}
 
-function reveal(){
-    launchConfetti();
-
-    document.querySelector(".images-top").style.display = "block";
-    setImages(endImages);
 
     document.getElementById("screen").innerHTML = `
         <h2>Überraschung 🎉</h2>
@@ -173,7 +173,7 @@ function reveal(){
         </div>
 
         <img class="poster" src="${posterPath}">
-        <p>Happy Birthday, Julchen 💜</p>
+        <p>Happy <b>Birthday, Julchen</b> 💜</p>
 `;
 
     startSong();
@@ -215,3 +215,12 @@ function launchConfetti(){
 
     update();
 }
+
+function goToMemory() {
+    document.getElementById("start-container").style.display = "none";
+    document.getElementById("memory-container").style.display = "block";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+   // dein Memory-Code
+});
