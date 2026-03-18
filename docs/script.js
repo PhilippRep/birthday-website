@@ -103,15 +103,13 @@ function checkMatch() {
 
     if (matched === memoryCards.length) {
         setTimeout(() => {
-            alert("Memory abgeschlossen! 🎉 Jetzt geht's zum Quiz!");
+            alert("Memory abgeschlossen! 🎉 Jetzt geht's zur Klick-Speed-Challenge!");
             document.getElementById("memory-container").style.display = "none";
-            document.getElementById("quiz-container").style.display = "block";
-
-            startQuiz();
-
-        }, 300);
-    }
+            speedContainer.style.display = "block";
+            startSpeedGame(); // startet die Challenge
+    }, 300);
 }
+
 
 // ======================
 // QUIZ LOGIC (wie vorher)
@@ -218,3 +216,122 @@ function goToMemory() {
 document.addEventListener("DOMContentLoaded", () => {
    // dein Memory-Code
 });
+
+// ======================
+// KLICK SPEED CHALLENGE
+// ======================
+
+const speedContainer = document.getElementById("speed-container");
+const speedArea = document.getElementById("speed-area");
+const startSpeed = document.getElementById("startSpeed");
+const timeDisplay = document.getElementById("time");
+const scoreDisplay = document.getElementById("score");
+
+let speedTime = 10; // Sekunden
+let speedScore = 0;
+let speedInterval;
+
+const emojis = ["⚡","🔥","💚","🎉","🌟"]; // zufällige Symbole
+
+startSpeed.addEventListener("click", () => {
+    startSpeed.style.display = "none";
+    speedScore = 0;
+    speedTime = 10;
+    scoreDisplay.textContent = speedScore;
+    timeDisplay.textContent = speedTime;
+
+    nextEmoji();
+
+    speedInterval = setInterval(() => {
+        speedTime--;
+        timeDisplay.textContent = speedTime;
+        if(speedTime <= 0){
+            clearInterval(speedInterval);
+            speedArea.innerHTML = "";
+            alert(`Zeit abgelaufen! Dein Score: ${speedScore}`);
+            // Weiter zum Quiz
+            speedContainer.style.display = "none";
+            document.getElementById("quiz-container").style.display = "block";
+            startQuiz();
+        }
+    }, 1000);
+});
+
+function nextEmoji() {
+    speedArea.innerHTML = "";
+    const emoji = document.createElement("div");
+    emoji.classList.add("speed-emoji");
+    emoji.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+
+    // zufällige Position
+    const areaRect = speedArea.getBoundingClientRect();
+    const x = Math.random() * (areaRect.width - 50);
+    const y = Math.random() * (areaRect.height - 50);
+    emoji.style.left = x + "px";
+    emoji.style.top = y + "px";
+
+    emoji.addEventListener("click", () => {
+        speedScore++;
+        scoreDisplay.textContent = speedScore;
+        nextEmoji();
+    });
+
+    speedArea.appendChild(emoji);
+}
+
+const speedContainer = document.getElementById("speed-container");
+const clickButton = document.getElementById("clickButton");
+const scoreDisplay = document.getElementById("score");
+const timeDisplay = document.getElementById("time");
+
+let score = 0;
+let time = 10; // Sekunden
+let timer;
+
+function startSpeedGame() {
+    score = 0;
+    time = 10;
+    scoreDisplay.textContent = score;
+    timeDisplay.textContent = time;
+
+    // Button klicken zählt Punkte
+    clickButton.addEventListener("click", () => {
+        score++;
+        scoreDisplay.textContent = score;
+    });
+
+    // Timer runterzählen
+    timer = setInterval(() => {
+        time--;
+        timeDisplay.textContent = time;
+        if (time <= 0) {
+            endSpeedGame();
+        }
+    }, 1000);
+}
+
+function endSpeedGame() {
+    clearInterval(timer);
+
+    const minClicks = 30; // Minimum für Erfolg
+    const maxClicks = 60; // Max für Machbarkeit
+
+    if (score >= minClicks && score <= maxClicks) {
+        alert(`Super! Du hast ${score} Klicks geschafft! Weiter zum Quiz 🎉`);
+        speedContainer.style.display = "none";
+        document.getElementById("quiz-container").style.display = "block";
+        startQuiz();
+    } else if (score < minClicks) {
+        alert(`Zu wenige Klicks (${score}) 😅 Versuche es nochmal!`);
+        score = 0;
+        time = 10;
+        scoreDisplay.textContent = score;
+        timeDisplay.textContent = time;
+    } else {
+        alert(`Zu viele Klicks (${score}) 😲 Du warst zu schnell! Versuche es nochmal!`);
+        score = 0;
+        time = 10;
+        scoreDisplay.textContent = score;
+        timeDisplay.textContent = time;
+    }
+}
