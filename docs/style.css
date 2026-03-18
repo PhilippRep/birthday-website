@@ -40,30 +40,18 @@ button:hover{
 background:#b29cff;
 }
 
-.img{
-    position:absolute;
-    width:120px;
-    height:200px;
-    object-fit:cover;
-    border-radius:12px;
-    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+.images-top {
+    position: relative;
+    width: 100%;
+    height: 250px;
 }
 
-.img_top{
-    top:200px;
-    left:900px;
-}
-
-.img_right{
-    top:450px;
-    right:625px;
-}
-
-.img_left{
-    top:450px;
-    left:625px;
-}
-
+.img {
+    position: absolute;
+    width: 90px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 12px;
 }
 
 .ticket{
@@ -91,10 +79,11 @@ pointer-events:none;
     display: grid;
     grid-template-columns: repeat(3, 100px);
     gap: 10px;
-    margin-top: 20px;
 
-    margin-left: 35px; /* 👉 nach rechts schieben */
+    justify-content: center;
+    margin: 20px auto; /* 🔥 DAS IST DER FIX */
 }
+
 .card {
     width: 100px;
     height: 100px;

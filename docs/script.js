@@ -3,9 +3,9 @@
 // =======================
 
 const startImages = [
-    { src: "DSCF5081.jpg", style: { top:"200px", left:"50%", transform: "translateX(-50%)" } },
-    { src: "DSCF3972.jpg", style: { bottom: "285px", right: "625px", transform: "none" } },
-    { src: "DSCF2395.jpg", style: { bottom:"285px", left: "625px", transform: "none"} }
+    { src: "DSCF5081.jpg", style: { top:"10%", left:"50%", transform:"translateX(-50%)" } },
+    { src: "DSCF3972.jpg", style: { bottom:"10%", right:"10%" } },
+    { src: "DSCF2395.jpg", style: { bottom:"10%", left:"10%" } }
 ];
 
 
@@ -173,7 +173,7 @@ function reveal(){
         </div>
 
         <img class="poster" src="ticket.jpg">
-        <p>Happy <b>Birthday, Julchen</b> 💜</p>
+        <p><b>Happy Birthday, Julchen</b> 💚</p>
 `;
 
     startSong();
