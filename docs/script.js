@@ -3,9 +3,9 @@
 // =======================
 
 const startImages = [
-    { src: "DSCF5081.jpg", style: { top:"3vh", left:"50%", transform:"translateX(-50%)" } }, // oben mittig
-    { src: "DSCF3972.jpg", style: { bottom:"1px", left:"10%" } },                             // unten links
-    { src: "DSCF2395.jpg", style: { bottom:"1px", right:"10%" } }                             // unten rechts
+    { src: "DSCF5081.jpg", style: { top:"5vh", left:"50%", transform:"translateX(-50%)" } }, // oben mittig
+    { src: "DSCF3972.jpg", style: { bottom:"0px", left:"10%" } },                             // unten links
+    { src: "DSCF2395.jpg", style: { bottom:"0px", right:"10%" } }                             // unten rechts
 ];
 
 
@@ -13,31 +13,28 @@ const startImages = [
 // 🔹 FUNKTION: Bilder setzen
 // =======================
 
-function setImages(imageArray){
+function setImages(array){
     const imgs = document.querySelectorAll(".images-top img");
 
-    imgs.forEach((img, index) => {
-        if(!imageArray[index]) return;
+    imgs.forEach((img, i) => {
+        if(!array[i]) return;
 
-        img.src = imageArray[index].src;
+        img.src = array[i].src;
 
-        // Alte Styles löschen
-        img.style.cssText = "";  // 🔹 alles vorher entfernen
+        // 🔹 Alte Styles löschen, um Konflikte zu vermeiden
+        img.style.cssText = "";
 
-        // Neue Styles setzen
-        const styles = imageArray[index].style;
-        Object.keys(styles).forEach(key => {
-            img.style[key] = styles[key];
+        // 🔹 Neue Styles aus dem Array setzen
+        Object.keys(array[i].style).forEach(key => {
+            img.style[key] = array[i].style[key];
         });
     });
 }
 
-// =======================
-// 🔹 START
-// =======================
-
-window.onload = () => {
-    setImages(startImages);
+// 🔹 Bilder beim Laden setzen
+window.addEventListener("DOMContentLoaded", () => {
+    setImages(imagesPositions);
+});
 }
 // ======================
 // MEMORY GAME
