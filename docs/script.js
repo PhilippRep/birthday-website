@@ -3,9 +3,9 @@
 // =======================
 
 const startImages = [
-    { src: "DSCF5081.jpg", style: { top:"10%", left:"50%", transform:"translateX(-50%)" } }, // oben mittig
-    { src: "DSCF3972.jpg", style: { bottom:"8%", left:"5%" } },                             // unten links
-    { src: "DSCF2395.jpg", style: { bottom:"8%", right:"5%" } }                             // unten rechts
+    { src: "DSCF5081.jpg", style: { top:"15%", left:"50%", transform:"translateX(-50%)" } }, // oben mittig
+    { src: "DSCF3972.jpg", style: { bottom:"15%", left:"10%" } },                             // unten links
+    { src: "DSCF2395.jpg", style: { bottom:"15%", right:"10%" } }                             // unten rechts
 ];
 
 

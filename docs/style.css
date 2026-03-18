@@ -1,27 +1,27 @@
-body{
+body {
     margin:0;
     font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background:linear-gradient(135deg,#f3e8dc,#e7dcff);
 
     display:flex;
     justify-content:center;
-    align-items:flex-start; /* statt center */
-
+    align-items:center; /* 🔥 Container mittig vertikal */
     min-height:100vh;
     padding:20px;
 }
 
-.container{
-    position: relative;  /* wichtig, damit z-index greift */
-    z-index: 1;          /* über den Bildern */
-    width:100%;
-    max-width:390px;
-    background:white;
-    padding:25px;
-    border-radius:24px;
-    box-shadow:0 20px 40px rgba(0,0,0,0.15);
-    text-align:center;
-    margin: 0 auto;      /* horizontal zentrieren */
+.container {
+    position: relative; /* damit z-index greift */
+    z-index: 1;
+
+    width: 100%;
+    max-width: 390px;
+    background: white;
+    padding: 25px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    text-align: center;
+    margin: 0 auto;
 }
 
 h1{
@@ -47,12 +47,12 @@ background:#b29cff;
 
 .images-top {
     position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* klicks gehen durch */
-    z-index: 0;           /* hinter dem Container */
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .img {
