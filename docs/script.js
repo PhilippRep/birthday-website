@@ -269,4 +269,3 @@ function startSpeedChallenge() {
     clicks++;
     countSpan.textContent = clicks;
   };
-}
