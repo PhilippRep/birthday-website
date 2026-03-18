@@ -269,10 +269,4 @@ function startSpeedChallenge() {
     clicks++;
     countSpan.textContent = clicks;
   };
-}}
-
-clickBtn.onclick = (event) => {
-    event.preventDefault(); // 🔹 verhindert Scrollen/Zoom
-    clicks++;
-    countSpan.textContent = clicks;
-};
+}
