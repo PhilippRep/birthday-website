@@ -102,11 +102,13 @@ function checkMatch() {
     flipped = [];
 
     if (matched === memoryCards.length) {
-        setTimeout(() => {
-            alert("Memory abgeschlossen! 🎉 Jetzt geht's zur Klick-Speed-Challenge!");
-            document.getElementById("memory-container").style.display = "none";
-            speedContainer.style.display = "block";
-            startSpeedGame(); // startet die Challenge
+      setTimeout(() => {
+        alert("Memory abgeschlossen! 🎉 Jetzt geht's zur Speed-Challenge!");
+        document.getElementById("memory-container").style.display = "none";
+
+        // Speed-Challenge starten
+        startSpeedChallenge();
+
     }, 300);
 }
 
@@ -278,60 +280,49 @@ function nextEmoji() {
 
     speedArea.appendChild(emoji);
 }
+function startSpeedChallenge() {
+  const speedContainer = document.getElementById("speed-container");
+  const clickBtn = document.getElementById("speed-click-btn");
+  const countSpan = document.getElementById("click-count");
+  const timerSpan = document.getElementById("timer");
 
-const speedContainer = document.getElementById("speed-container");
-const clickButton = document.getElementById("clickButton");
-const scoreDisplay = document.getElementById("score");
-const timeDisplay = document.getElementById("time");
+  let clicks = 0;
+  let seconds = 5; // Dauer der Challenge
+  const minClicks = 15;
+  const maxClicks = 25;
 
-let score = 0;
-let time = 10; // Sekunden
-let timer;
+  // Container sichtbar machen
+  speedContainer.style.display = "block";
 
-function startSpeedGame() {
-    score = 0;
-    time = 10;
-    scoreDisplay.textContent = score;
-    timeDisplay.textContent = time;
+  // Klick-Button reset
+  countSpan.textContent = "0";
+  clicks = 0;
 
-    // Button klicken zählt Punkte
-    clickButton.addEventListener("click", () => {
-        score++;
-        scoreDisplay.textContent = score;
-    });
+  clickBtn.disabled = false;
 
-    // Timer runterzählen
-    timer = setInterval(() => {
-        time--;
-        timeDisplay.textContent = time;
-        if (time <= 0) {
-            endSpeedGame();
-        }
-    }, 1000);
-}
+  const interval = setInterval(() => {
+    seconds--;
+    timerSpan.textContent = seconds;
+    if (seconds <= 0) {
+      clearInterval(interval);
+      clickBtn.disabled = true;
 
-function endSpeedGame() {
-    clearInterval(timer);
-
-    const minClicks = 30; // Minimum für Erfolg
-    const maxClicks = 60; // Max für Machbarkeit
-
-    if (score >= minClicks && score <= maxClicks) {
-        alert(`Super! Du hast ${score} Klicks geschafft! Weiter zum Quiz 🎉`);
+      // Erfolg prüfen
+      if (clicks >= minClicks && clicks <= maxClicks) {
+        alert(`Super! Du hast ${clicks} Klicks geschafft! Weiter zum Quiz 🎉`);
         speedContainer.style.display = "none";
         document.getElementById("quiz-container").style.display = "block";
         startQuiz();
-    } else if (score < minClicks) {
-        alert(`Zu wenige Klicks (${score}) 😅 Versuche es nochmal!`);
-        score = 0;
-        time = 10;
-        scoreDisplay.textContent = score;
-        timeDisplay.textContent = time;
-    } else {
-        alert(`Zu viele Klicks (${score}) 😲 Du warst zu schnell! Versuche es nochmal!`);
-        score = 0;
-        time = 10;
-        scoreDisplay.textContent = score;
-        timeDisplay.textContent = time;
+      } else {
+        alert(`Schade 😢 Du hattest ${clicks} Klicks. Versuch's noch einmal!`);
+        startSpeedChallenge(); // nochmal starten
+      }
     }
+  }, 1000);
+
+  // Klick-Handler
+  clickBtn.onclick = () => {
+    clicks++;
+    countSpan.textContent = clicks;
+  };
 }

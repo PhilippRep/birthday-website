@@ -107,6 +107,11 @@ pointer-events:none;
     cursor: pointer;
 }
 
+#speed-container {
+  position: relative;
+  z-index: 3; /* sicher über Bildern */
+}
+
 #speed-area {
     border: 2px dashed #cbb8ff;
     border-radius: 12px;
