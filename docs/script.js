@@ -3,32 +3,17 @@
 // =======================
 
 const startImages = [
-    // 🔝 OBEN MITTE
     {
         src: "DSCF5081.jpg",
-        style: {
-            top: "0%",
-            left: "50%",
-            transform: "translateX(-50%)"
-        }
+        style: { top:"5%", left:"50%", transform:"translateX(-50%)" }
     },
-
-    // ↙️ UNTEN LINKS
     {
         src: "DSCF3972.jpg",
-        style: {
-            bottom: "0%",
-            left: "5%"
-        }
+        style: { bottom:"5%", left:"5%" }
     },
-
-    // ↘️ UNTEN RECHTS
     {
         src: "DSCF2395.jpg",
-        style: {
-            bottom: "0%",
-            right: "5%"
-        }
+        style: { bottom:"5%", right:"5%" }
     }
 ];
 

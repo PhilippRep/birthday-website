@@ -41,11 +41,14 @@ background:#b29cff;
 }
 
 .images-top {
-    position: relative;
+    position: fixed;   /* 🔥 statt relative */
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 390px;
-    height: 260px;
-    margin: 0 auto; /* zentriert */
+    height: 100%;
+
+    pointer-events: none; /* klicks gehen durch */
+    z-index: 0;           /* hinter dem Content */
 }
 
 .img {
@@ -54,8 +57,8 @@ background:#b29cff;
     height: 140px;
     object-fit: cover;
     border-radius: 12px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
+
 .ticket{
 background:#f6efe5;
 padding:20px;
