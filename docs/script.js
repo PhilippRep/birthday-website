@@ -3,42 +3,32 @@
 // =======================
 
 const startImages = [
-    { src: "DSCF5081.jpg", style: { top:"3vh", left:"50%", transform:"translateX(-50%)" } }, // oben mittig
-    { src: "DSCF3972.jpg", style: { bottom:"1px", left:"10%" } },                             // unten links
-    { src: "DSCF2395.jpg", style: { bottom:"1px", right:"10%" } }                             // unten rechts
+    { src: "DSCF5081.jpg", style: { top:"5vh", left:"50%", transform:"translateX(-50%)" } },
+    { src: "DSCF3972.jpg", style: { bottom:"0px", left:"5%" } },
+    { src: "DSCF2395.jpg", style: { bottom:"0px", right:"5%" } }
 ];
 
-
-// =======================
-// 🔹 FUNKTION: Bilder setzen
-// =======================
-
-function setImages(imageArray){
+function setImages(images) {
     const imgs = document.querySelectorAll(".images-top img");
-
-    imgs.forEach((img, index) => {
-        if(!imageArray[index]) return;
-
-        img.src = imageArray[index].src;
-
-        // Alte Styles löschen
-        img.style.cssText = "";  // 🔹 alles vorher entfernen
-
-        // Neue Styles setzen
-        const styles = imageArray[index].style;
-        Object.keys(styles).forEach(key => {
-            img.style[key] = styles[key];
-        });
+    document.querySelector(".images-top").style.display = "block";
+    imgs.forEach((img, i) => {
+        if(!images[i]) return;
+        img.src = images[i].src;
+        img.style.cssText = "";
+        Object.keys(images[i].style).forEach(key => img.style[key] = images[i].style[key]);
     });
 }
 
-// =======================
-// 🔹 START
-// =======================
-
-window.onload = () => {
-    setImages(startImages);
+function goToMemory() {
+    document.getElementById("start-container").style.display = "none";
+    document.getElementById("memory-container").style.display = "block";
 }
+
+// DOM ready
+document.addEventListener("DOMContentLoaded", () => {
+    setImages(startImages);
+});
+
 // ======================
 // MEMORY GAME
 // ======================
