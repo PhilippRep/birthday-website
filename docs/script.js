@@ -20,7 +20,13 @@ function setImages(images) {
 }
 
 function goToMemory() {
+    // Startseite ausblenden
     document.getElementById("start-container").style.display = "none";
+
+    // Bilder ausblenden
+    document.querySelector(".images-top").style.display = "none";
+
+    // Memory-Container anzeigen
     document.getElementById("memory-container").style.display = "block";
 }
 
