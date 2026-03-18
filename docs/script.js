@@ -224,63 +224,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // KLICK SPEED CHALLENGE
 // ======================
 
-const speedContainer = document.getElementById("speed-container");
-const speedArea = document.getElementById("speed-area");
-const startSpeed = document.getElementById("startSpeed");
-const timeDisplay = document.getElementById("time");
-const scoreDisplay = document.getElementById("score");
-
-let speedTime = 10; // Sekunden
-let speedScore = 0;
-let speedInterval;
-
-const emojis = ["⚡","🔥","💚","🎉","🌟"]; // zufällige Symbole
-
-startSpeed.addEventListener("click", () => {
-    startSpeed.style.display = "none";
-    speedScore = 0;
-    speedTime = 10;
-    scoreDisplay.textContent = speedScore;
-    timeDisplay.textContent = speedTime;
-
-    nextEmoji();
-
-    speedInterval = setInterval(() => {
-        speedTime--;
-        timeDisplay.textContent = speedTime;
-        if(speedTime <= 0){
-            clearInterval(speedInterval);
-            speedArea.innerHTML = "";
-            alert(`Zeit abgelaufen! Dein Score: ${speedScore}`);
-            // Weiter zum Quiz
-            speedContainer.style.display = "none";
-            document.getElementById("quiz-container").style.display = "block";
-            startQuiz();
-        }
-    }, 1000);
-});
-
-function nextEmoji() {
-    speedArea.innerHTML = "";
-    const emoji = document.createElement("div");
-    emoji.classList.add("speed-emoji");
-    emoji.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-
-    // zufällige Position
-    const areaRect = speedArea.getBoundingClientRect();
-    const x = Math.random() * (areaRect.width - 50);
-    const y = Math.random() * (areaRect.height - 50);
-    emoji.style.left = x + "px";
-    emoji.style.top = y + "px";
-
-    emoji.addEventListener("click", () => {
-        speedScore++;
-        scoreDisplay.textContent = speedScore;
-        nextEmoji();
-    });
-
-    speedArea.appendChild(emoji);
-}
 function startSpeedChallenge() {
   const speedContainer = document.getElementById("speed-container");
   const clickBtn = document.getElementById("speed-click-btn");
@@ -289,8 +232,8 @@ function startSpeedChallenge() {
 
   let clicks = 0;
   let seconds = 5; // Dauer der Challenge
-  const minClicks = 15;
-  const maxClicks = 25;
+  const minClicks = 30;
+  const maxClicks = 50;
 
   // Container sichtbar machen
   speedContainer.style.display = "block";
@@ -326,4 +269,4 @@ function startSpeedChallenge() {
     clicks++;
     countSpan.textContent = clicks;
   };
-}
+}}

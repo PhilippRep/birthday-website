@@ -237,8 +237,8 @@ function startSpeedChallenge() {
 
   let clicks = 0;
   let seconds = 5; // Dauer der Challenge
-  const minClicks = 15;
-  const maxClicks = 25;
+  const minClicks = 30;
+  const maxClicks = 50;
 
   // Container sichtbar machen
   speedContainer.style.display = "block";
