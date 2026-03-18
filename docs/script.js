@@ -3,9 +3,9 @@
 // =======================
 
 const startImages = [
-    { src: "DSCF5081.jpg", style: { top:"17%", left:"50%", transform:"translateX(-50%)" } }, // oben mittig
-    { src: "DSCF3972.jpg", style: { bottom:"12%", left:"10%" } },                             // unten links
-    { src: "DSCF2395.jpg", style: { bottom:"12%", right:"10%" } }                             // unten rechts
+    { src: "DSCF5081.jpg", style: { top:"20%", left:"50%", transform:"translateX(-50%)" } }, // oben mittig
+    { src: "DSCF3972.jpg", style: { bottom:"5%", left:"10%" } },                             // unten links
+    { src: "DSCF2395.jpg", style: { bottom:"5%", right:"10%" } }                             // unten rechts
 ];
 
 
@@ -13,24 +13,22 @@ const startImages = [
 // 🔹 FUNKTION: Bilder setzen
 // =======================
 
-function setImages(imageArray){
+function setImages(imageArray) {
     const imgs = document.querySelectorAll(".images-top img");
-    const container = document.querySelector(".images-top");
 
-    container.style.display = "block"; // sicherstellen dass sichtbar ist
+    imgs.forEach((img, index) => {
+        if (!imageArray[index]) return;
 
-    imgs.forEach((img, index)=>{
-        if(imageArray[index]){
-            img.src = imageArray[index].src;
+        img.src = imageArray[index].src;
 
-            // Alle vorherigen Styles löschen
-            img.style = "";
+        // Alte Styles komplett löschen
+        img.style.cssText = "";
 
-            // Neue Styles setzen
-            Object.keys(imageArray[index].style).forEach(key=>{
-                img.style[key] = imageArray[index].style[key];
-            });
-        }
+        // Neue Styles setzen
+        const styleObj = imageArray[index].style;
+        Object.keys(styleObj).forEach(key => {
+            img.style[key] = styleObj[key];
+        });
     });
 }
 

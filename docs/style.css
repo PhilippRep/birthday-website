@@ -5,22 +5,21 @@ body {
 
     display:flex;
     justify-content:center;
-    align-items:center; /* 🔥 Container mittig vertikal */
+    align-items:center; /* Container vertikal mittig */
     min-height:100vh;
     padding:20px;
 }
 
 .container {
-    position: relative; /* damit z-index greift */
-    z-index: 1;
-
+    position: relative;
+    z-index: 1; /* hinter Bildern */
     width: 100%;
     max-width: 390px;
-    background: white;
-    padding: 25px;
-    border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    text-align: center;
+    background:white;
+    padding:25px;
+    border-radius:24px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+    text-align:center;
     margin: 0 auto;
 }
 
@@ -52,7 +51,7 @@ background:#b29cff;
     top: 0;
     left: 0;
     pointer-events: none;
-    z-index: 2;
+    z-index: 2; /* über dem Container */
 }
 
 .img {
