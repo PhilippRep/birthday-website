@@ -101,15 +101,16 @@ function checkMatch() {
     }
     flipped = [];
 
-    if (matched === memoryCards.length) {
-      setTimeout(() => {
-        alert("Memory abgeschlossen! 🎉 Jetzt geht's zur Speed-Challenge!");
-        document.getElementById("memory-container").style.display = "none";
+   if (matched === memoryCards.length) {
+        setTimeout(() => {
+            alert("Memory abgeschlossen! 🎉 Jetzt geht's zur Speed-Challenge!");
+            document.getElementById("memory-container").style.display = "none";
 
-        // Speed-Challenge starten
-        startSpeedChallenge();
+            // Speed-Challenge starten
+            startSpeedChallenge();
 
-    }, 300);
+        }, 300);
+    }
 }
 
 

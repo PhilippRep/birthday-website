@@ -173,7 +173,7 @@ function reveal(){
         </div>
 
         <img class="poster" src="${posterPath}">
-        <p>Happy <b>Birthday, Julchen</b> 💜</p>
+        <p><br>Happy Birthday, Julchen</b> 💜</p>
 `;
 
     startSong();
