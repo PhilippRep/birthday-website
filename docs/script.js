@@ -13,21 +13,21 @@ const startImages = [
 // 🔹 FUNKTION: Bilder setzen
 // =======================
 
-function setImages(imageArray) {
+function setImages(imageArray){
     const imgs = document.querySelectorAll(".images-top img");
 
     imgs.forEach((img, index) => {
-        if (!imageArray[index]) return;
+        if(!imageArray[index]) return;
 
         img.src = imageArray[index].src;
 
-        // Alte Styles komplett löschen
-        img.style.cssText = "";
+        // Alte Styles löschen
+        img.style.cssText = "";  // 🔹 alles vorher entfernen
 
         // Neue Styles setzen
-        const styleObj = imageArray[index].style;
-        Object.keys(styleObj).forEach(key => {
-            img.style[key] = styleObj[key];
+        const styles = imageArray[index].style;
+        Object.keys(styles).forEach(key => {
+            img.style[key] = styles[key];
         });
     });
 }
