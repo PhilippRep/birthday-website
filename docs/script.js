@@ -232,7 +232,7 @@ function startSpeedChallenge() {
 
   let clicks = 0;
   let seconds = 5; // Dauer der Challenge
-  const minClicks = 30;
+  const minClicks = 35;
   const maxClicks = 50;
 
   // Container sichtbar machen
