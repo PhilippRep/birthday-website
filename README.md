@@ -1,10 +1,11 @@
 # Birthday Quest 💜
 
 **Birthday Quest** ist eine interaktive Web-App, die als kleine Geburtstagsüberraschung gestaltet ist.  
-Benutzer können ein Mini-Quiz starten, am Ende erscheinen personalisierte Bilder, Musik und eine Nachricht.  
+Benutzer*innen durchlaufen eine Reihe von Mini-Games, am Ende erscheinen personalisierte Bilder, Musik und eine Nachricht. 
 
 > ⚠️ Hinweis: Diese Version enthält persönliche Dateien (Bilder, Musik, Namen).  
-> Andere Benutzer müssen diese ersetzen, um die App für ihre eigenen Zwecke zu verwenden.
+> Andere Benutzer*innen müssen diese ersetzen, um die App für ihre eigenen Zwecke zu verwenden.
+> Es gibt eine Laptop / Desktop und eine Mobile Version!
 
 ---
 
@@ -18,13 +19,46 @@ docs/ ← Hauptordner für GitHub Pages
 ├─ poster.jpg ← Poster oder Bild für Überraschung
 └─ song.mp3 ← Platzhalter für Musik
 
+static/ ← Hauptordner für Desktop Version
+├─ style.css ← Styling der Webseite
+├─ script.js ← Logik für Quiz, Bilder und Musik
+├─ [BILDER].jpg ← Platzhalter für eigene Bilder
+├─ poster.jpg ← Poster oder Bild für Überraschung
+└─ song.mp3 ← Platzhalter für Musik
+templates/
+└─index.html ← Startseite
+app.py
+README
+---
+ 
+## 🎮 Aufbau und Spiele
+
+- **Begrüßung** mit persönlichem Text
+- **Memory Game**
+  - Finde alle gleichen Paare (Emoyies können in JS angepasst werden)
+- **Speed Challenge**
+  - Klicke mind. 50 (eine selbst bestimmte Anzahl von Klicks) Mal innerhalb von 5 Sekunden)
+  - Min und Max können in JS festgelegt werden, ebenso die Sekundenanzahl
+- **Catch Me Button Challenge**
+  - Versuche den Button 4 mal zu treffen
+- **Emoyi Catcher**
+    - Fange 20 herunterfallende Emoyies
+- **Memory Flash Game**
+  - Wiederhole eine vorgegebene Reihenfolge von Emoyies
+- **Maze Game** (nur auf Desktop Version)
+  - Führe die Figur durchs Labyrinth
+- **Quiz**
+  - Beantworte eine große Anzahl an Fragen
+  - Fragen und Anzahl an Fragen können in JS bearbeitet werden
+- **Geschenke Übergabe**
+  - zeigt Geschenkebezeichnung, ein Bild und eine Verabschiedungszeile
 
 ---
-
+ 
 ## ⚙️ Anpassung für eigene Nutzung
 
 1. **Bilder austauschen**  
-   - Ersetze die JPG-Dateien im `docs/`-Ordner durch eigene Bilder.  
+   - Ersetze die JPG-Dateien im `docs/`-Ordner und oder `static/`-Ordner durch eigene Bilder.  
    - Passe die Arrays `startImages` und `endImages` in `script.js` an, damit die richtigen Bilder angezeigt werden.
 
 2. **Musik austauschen**  
