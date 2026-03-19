@@ -353,10 +353,10 @@ function startMovingGame() {
     moveButton();
 
     if (hits >= targetHits) {
-      alert("DU HAST IHN GEFANGEN 😈🔥 Weiter zum Quiz!");
+      alert("DU HAST IHN GEFANGEN 😈🔥 Weiter zum Emoji Catcher!");
       container.style.display = "none";
       showOnly("quiz-container");
-      startQuiz();
+      startEmojiCatcher();
     }
   };
 }
@@ -366,4 +366,130 @@ function showOnly(id) {
     c.style.display = "none";
   });
   document.getElementById(id).style.display = "block";
+}
+
+
+// Emoyi Catcher Mini Game
+function startEmojiCatcher() { showOnly("emoji-container");
+  const area = document.getElementById("emoji-area");
+  const countSpan = document.getElementById("emoji-count");
+  let caught = 0;
+  const target = 5;
+  let activeEmojis = [];
+
+  countSpan.textContent = caught;
+
+  function spawnEmoji() {
+    const emoji = document.createElement("div");
+    emoji.className = "emoji";
+    emoji.textContent = ["🍀","🎉","💜","⭐","🍓"][Math.floor(Math.random()*5)];
+    emoji.style.left = Math.random() * (area.clientWidth - 40) + "px";
+    emoji.style.top = "0px";
+    area.appendChild(emoji);
+    activeEmojis.push(emoji);
+
+    const fallSpeed = Math.random() * 2 + 1; // 1-3 px/frame
+
+    function fall() {
+      const top = parseFloat(emoji.style.top);
+      if (top >= area.clientHeight - 40) {
+        // Emoji verpasst
+        emoji.remove();
+        activeEmojis = activeEmojis.filter(e => e!==emoji);
+        return;
+      }
+      emoji.style.top = top + fallSpeed + "px";
+      requestAnimationFrame(fall);
+    }
+    fall();
+
+    // Klick
+    emoji.onclick = () => {
+      caught++;
+      countSpan.textContent = caught;
+      emoji.remove();
+      activeEmojis = activeEmojis.filter(e => e!==emoji);
+
+      // Schwierigkeit erhöhen
+      spawnEmoji();
+      if (caught >= target) {
+        alert("Super! Du hast die Emojis gefangen! 🎉 Weiter zum Memory Flash!");
+        showOnly("quiz-container");
+        startFlashGame();
+      }
+    };
+  }
+
+  // Start Emojis spawnen
+  for (let i=0;i<3;i++) spawnEmoji();
+  // Alle 1,5 Sekunden ein neues Emoji
+  const spawnInterval = setInterval(() => {
+    if (caught >= target) clearInterval(spawnInterval);
+    spawnEmoji();
+  }, 1500);
+}
+
+function startFlashGame() {
+  showOnly("flash-container");
+
+  const flashSequenceDiv = document.getElementById("flash-sequence");
+  const flashButtonsDiv = document.getElementById("flash-buttons");
+  const progressSpan = document.getElementById("flash-progress");
+
+  const symbols = ["🐶","🌴","🎁","☀️","🍓","🎂"];
+  const targetLength = 5; // Anzahl der Symbole, die gemerkt werden müssen
+  let sequence = [];
+  let userInput = [];
+  let index = 0;
+
+  progressSpan.textContent = index;
+
+  // Buttons erstellen
+  flashButtonsDiv.innerHTML = "";
+  symbols.forEach(sym => {
+    const btn = document.createElement("button");
+    btn.textContent = sym;
+    btn.onclick = () => {
+      userInput.push(sym);
+      if (sym === sequence[userInput.length - 1]) {
+        index++;
+        progressSpan.textContent = index;
+        if (userInput.length === sequence.length) {
+          alert("Super! 🎉 Du hast die Sequenz richtig! Weiter zum Quiz!");
+          showOnly("quiz-container");
+          startQuiz();
+        }
+      } else {
+        alert("Falsch 😢 Versuch es nochmal!");
+        startFlashGame(); // Neustart
+      }
+    };
+    flashButtonsDiv.appendChild(btn);
+  });
+
+  // Sequenz erzeugen
+  sequence = [];
+  for (let i = 0; i < targetLength; i++) {
+    const random = symbols[Math.floor(Math.random() * symbols.length)];
+    sequence.push(random);
+  }
+
+  // Sequenz anzeigen nacheinander
+  flashSequenceDiv.textContent = "";
+  let i = 0;
+  const interval = setInterval(() => {
+    flashSequenceDiv.textContent = sequence[i];
+    i++;
+    if (i >= sequence.length) {
+      clearInterval(interval);
+      setTimeout(() => {
+        flashSequenceDiv.textContent = ""; // ausblenden
+      }, 800);
+    }
+  }, 800);
+
+  // Reset User Input
+  userInput = [];
+  index = 0;
+  progressSpan.textContent = index;
 }
