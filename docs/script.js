@@ -455,9 +455,9 @@ function startFlashGame() {
         index++;
         progressSpan.textContent = index;
         if (userInput.length === sequence.length) {
-          alert("Super! 🎉 Du hast die Sequenz richtig! Weiter zum Puzzle!");
+          alert("Super! 🎉 Du hast die Sequenz richtig! Weiter zum Labyrinth!");
           showOnly("quiz-container");
-          startPuzzle();
+          startMaze();
         }
       } else {
         alert("Falsch 😢 Versuch es nochmal!");
@@ -493,138 +493,72 @@ function startFlashGame() {
   index = 0;
   progressSpan.textContent = index;
 }
-let draggedPiece = null;
-let correctCount = 0;
 
-function startPuzzle() {
-    showOnly("puzzle-container");
+let maze = [];
+let playerPos = { row: 0, col: 0 };
 
-    const puzzleGrid = document.getElementById("puzzle-grid");
-    const puzzlePiecesContainer = document.getElementById("puzzle-pieces");
-    const puzzleCount = document.getElementById("puzzle-count");
+const startMazeLayout = [
+    ["S",0,1,0,0],
+    [1,0,1,0,1],
+    [0,0,0,0,1],
+    [0,1,1,0,0],
+    [0,0,0,1,"E"]
+];
 
-    // Reset
-    puzzleGrid.innerHTML = "";
-    puzzlePiecesContainer.innerHTML = "";
-    puzzleCount.textContent = "0";
-    correctCount = 0;
+function startMaze() {
+    showOnly("maze-container");
 
-    const imagePath = "DSCF5081.jpg"; // <--- dein Hochkantbild
-    const rows = 2;
-    const cols = 3;
-
-    const img = new Image();
-    img.src = imagePath;
-    img.onload = function() {
-        const pieceWidth = img.width / cols;
-        const pieceHeight = img.height / rows;
-
-        // Slots erstellen
-        for (let i = 0; i < rows * cols; i++) {
-            const slot = document.createElement("div");
-            slot.classList.add("puzzle-slot");
-            slot.dataset.index = i;
-            slot.addEventListener("dragover", e => e.preventDefault());
-            slot.addEventListener("drop", dropPiece);
-            puzzleGrid.appendChild(slot);
-        }
-
-        // Pieces aus Canvas schneiden
-        const pieces = [];
-        for (let r = 0; r < rows; r++) {
-            for (let c = 0; c < cols; c++) {
-                const canvas = document.createElement("canvas");
-                canvas.width = pieceWidth;
-                canvas.height = pieceHeight;
-                const ctx = canvas.getContext("2d");
-                ctx.drawImage(img, c * pieceWidth, r * pieceHeight, pieceWidth, pieceHeight, 0, 0, pieceWidth, pieceHeight);
-
-                const pieceImg = new Image();
-                pieceImg.src = canvas.toDataURL();
-                pieceImg.classList.add("puzzle-piece");
-                pieceImg.draggable = true;
-                pieceImg.dataset.index = r * cols + c;
-
-                // Drag Events
-                pieceImg.addEventListener("dragstart", dragStart);
-                pieceImg.addEventListener("touchstart", touchStart, {passive:false});
-                pieceImg.addEventListener("touchmove", touchMove, {passive:false});
-                pieceImg.addEventListener("touchend", touchEnd);
-
-                pieces.push(pieceImg);
-            }
-        }
-
-        // Shuffle und anzeigen
-        pieces.sort(() => Math.random() - 0.5)
-              .forEach(p => puzzlePiecesContainer.appendChild(p));
-    };
+    maze = JSON.parse(JSON.stringify(startMazeLayout)); // Kopie des Layouts
+    playerPos = { row: 0, col: 0 };
+    renderMaze();
 }
 
-// Drag & Drop
-function dragStart(e) { draggedPiece = this; }
+function renderMaze() {
+    const grid = document.getElementById("maze-grid");
+    grid.innerHTML = "";
 
-function dropPiece(e) {
-    e.preventDefault();
-    if (draggedPiece && this.children.length === 0) {
-        this.appendChild(draggedPiece);
-        draggedPiece.style.width = "100%";
-        draggedPiece.style.height = "100%";
-        correctCount++;
-        document.getElementById("puzzle-count").textContent = correctCount;
-        draggedPiece = null;
+    for(let r=0; r<maze.length; r++) {
+        for(let c=0; c<maze[r].length; c++) {
+            const cell = document.createElement("div");
+            cell.classList.add("cell");
+
+            if(r === playerPos.row && c === playerPos.col) {
+                cell.classList.add("player");
+                cell.textContent = "😀";
+            } else if(maze[r][c] === 1) {
+                cell.classList.add("wall");
+            } else if(maze[r][c] === "E") {
+                cell.classList.add("exit");
+                cell.textContent = "🏁";
+            } else {
+                cell.classList.add("path");
+            }
+
+            grid.appendChild(cell);
+        }
     }
 }
 
-// Touch Events
-let touchOffsetX = 0, touchOffsetY = 0;
+function movePlayer(direction) {
+    let newRow = playerPos.row;
+    let newCol = playerPos.col;
 
-function touchStart(e) {
-    e.preventDefault();
-    draggedPiece = this;
-    const touch = e.touches[0];
-    const rect = this.getBoundingClientRect();
-    touchOffsetX = touch.clientX - rect.left;
-    touchOffsetY = touch.clientY - rect.top;
-    this.style.position = "absolute";
-    this.style.zIndex = "1000";
-    document.body.appendChild(this);
-    moveAt(touch.clientX, touch.clientY);
-}
+    if(direction === "up") newRow--;
+    else if(direction === "down") newRow++;
+    else if(direction === "left") newCol--;
+    else if(direction === "right") newCol++;
 
-function touchMove(e) {
-    e.preventDefault();
-    const touch = e.touches[0];
-    moveAt(touch.clientX, touch.clientY);
-}
+    if(newRow<0 || newRow>=maze.length || newCol<0 || newCol>=maze[0].length) return; // außerhalb
+    if(maze[newRow][newCol] === 1) return; // Wand
 
-function moveAt(x, y) {
-    draggedPiece.style.left = (x - touchOffsetX) + "px";
-    draggedPiece.style.top = (y - touchOffsetY) + "px";
-}
+    playerPos = { row: newRow, col: newCol };
+    renderMaze();
 
-function touchEnd(e) {
-    draggedPiece.style.position = "";
-    draggedPiece.style.zIndex = "";
-    let placed = false;
-    document.querySelectorAll(".puzzle-slot").forEach(slot => {
-        const rect = slot.getBoundingClientRect();
-        const pieceRect = draggedPiece.getBoundingClientRect();
-        if (
-            pieceRect.left + pieceRect.width/2 > rect.left &&
-            pieceRect.left + pieceRect.width/2 < rect.right &&
-            pieceRect.top + pieceRect.height/2 > rect.top &&
-            pieceRect.top + pieceRect.height/2 < rect.bottom &&
-            slot.children.length === 0
-        ) {
-            slot.appendChild(draggedPiece);
-            draggedPiece.style.width = "100%";
-            draggedPiece.style.height = "100%";
-            correctCount++;
-            document.getElementById("puzzle-count").textContent = correctCount;
-            placed = true;
-        }
-    });
-    if (!placed) document.getElementById("puzzle-pieces").appendChild(draggedPiece);
-    draggedPiece = null;
+    if(maze[newRow][newCol] === "E") {
+        setTimeout(() => {
+            alert("🎉 Labyrinth geschafft! 🎉 Du hast die Sequenz richtig! Weiter zum Quiz!");
+            showOnly("quiz-container");
+            startQuiz();
+        }, 100);
+    }
 }

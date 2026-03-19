@@ -78,17 +78,22 @@
   <p>Fortschritt: <span id="flash-progress">0</span>/<span id="flash-target">5</span></p>
 </div>
 
-<!-- DRAG & DROP PUZZLE -->
-<div class="container" id="puzzle-container" style="display:none;">
-    <h1>Drag & Drop Puzzle 💜</h1>
-    <p>Setze das Bild wieder zusammen!</p>
-    <p>Fertige Teile: <span id="puzzle-count">0</span> / 6</p>
+<div class="container" id="maze-container" style="display:none;">
+    <h1>Mini Labyrinth 🌀</h1>
+    <p>Führe den Spieler zum Ziel!</p>
 
-    <div id="puzzle-grid"></div>
-    <div id="puzzle-pieces"></div>
+    <div id="maze-grid"></div>
 
-    <button onclick="startPuzzle()">Neustarten 🔄</button>
+    <div id="controls">
+        <button onclick="movePlayer('up')">↑</button>
+        <button onclick="movePlayer('left')">←</button>
+        <button onclick="movePlayer('down')">↓</button>
+        <button onclick="movePlayer('right')">→</button>
+    </div>
+
+    <button onclick="startMaze()">Neustarten 🔄</button>
 </div>
+
 
 <!-- QUIZ -->
 <div class="container" id="quiz-container" style="display:none;">
