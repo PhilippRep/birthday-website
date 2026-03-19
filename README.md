@@ -28,7 +28,8 @@ static/ ← Hauptordner für Desktop Version
 templates/
 └─index.html ← Startseite
 app.py
-README
+README.md
+
 ---
  
 ## 🎮 Aufbau und Spiele
