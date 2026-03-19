@@ -494,6 +494,8 @@ function startFlashGame() {
   progressSpan.textContent = index;
 }
 
+let draggedPiece = null;
+let correctCount = 0;
 
 function startPuzzle() {
   showOnly("puzzle-container");
@@ -505,138 +507,128 @@ function startPuzzle() {
   puzzleGrid.innerHTML = "";
   puzzlePiecesContainer.innerHTML = "";
   puzzleCount.textContent = "0";
+  correctCount = 0;
 
-  const imagePath = "your_image.jpg"; // Pfad zum Bild
+  const imagePath = "your_image.jpg"; // Hochkantbild
   const rows = 2;
   const cols = 3;
-  const totalPieces = rows * cols;
-  let correctCount = 0;
 
-  // Slots erstellen
-  for (let i = 0; i < totalPieces; i++) {
-    const slot = document.createElement("div");
-    slot.classList.add("puzzle-slot");
-    slot.dataset.index = i;
-    slot.addEventListener("dragover", (e) => e.preventDefault());
-    slot.addEventListener("drop", dropPiece);
-    puzzleGrid.appendChild(slot);
-  }
+  const img = new Image();
+  img.src = imagePath;
+  img.onload = function() {
+    const pieceWidth = img.width / cols;
+    const pieceHeight = img.height / rows;
 
-  // Puzzle-Teile erstellen
-  const pieces = [];
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const piece = document.createElement("img");
-      piece.src = imagePath;
-      piece.classList.add("puzzle-piece");
-      piece.draggable = true;
+    // --- Slots erstellen ---
+    for (let i = 0; i < rows * cols; i++) {
+      const slot = document.createElement("div");
+      slot.classList.add("puzzle-slot");
+      slot.dataset.index = i;
+      slot.addEventListener("dragover", e => e.preventDefault());
+      slot.addEventListener("drop", dropPiece);
+      puzzleGrid.appendChild(slot);
+    }
 
-      // Objektposition für das Zuschneiden
-      const xPercent = (c / (cols - 1)) * 100;
-      const yPercent = (r / (rows - 1)) * 100;
-      piece.style.objectPosition = `${xPercent}% ${yPercent}%`;
-      piece.dataset.index = r * cols + c;
+    // --- Pieces erstellen ---
+    const pieces = [];
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const piece = document.createElement("div");
+        piece.classList.add("puzzle-piece");
+        piece.draggable = true;
+        piece.dataset.index = r * cols + c;
 
-      piece.addEventListener("dragstart", dragStart);
-      piece.addEventListener("touchstart", touchStart, {passive:false});
-      piece.addEventListener("touchmove", touchMove, {passive:false});
-      piece.addEventListener("touchend", touchEnd);
+        // Bild als Hintergrund setzen
+        piece.style.width = pieceWidth + "px";
+        piece.style.height = pieceHeight + "px";
+        piece.style.backgroundImage = `url(${imagePath})`;
+        piece.style.backgroundPosition = `-${c * pieceWidth}px -${r * pieceHeight}px`;
+        piece.style.backgroundSize = `${img.width}px ${img.height}px`;
 
-      pieces.push(piece);
+        // Drag & Touch Events
+        piece.addEventListener("dragstart", dragStart);
+        piece.addEventListener("touchstart", touchStart, {passive:false});
+        piece.addEventListener("touchmove", touchMove, {passive:false});
+        piece.addEventListener("touchend", touchEnd);
+
+        pieces.push(piece);
+      }
+    }
+
+    // Pieces mischen
+    pieces.sort(() => Math.random() - 0.5);
+    pieces.forEach(p => puzzlePiecesContainer.appendChild(p));
+  };
+}
+
+// --- Drag & Drop ---
+function dragStart(e) {
+  draggedPiece = this;
+}
+
+function dropPiece(e) {
+  e.preventDefault();
+  if (!draggedPiece) return;
+
+  const slotIndex = parseInt(this.dataset.index);
+  const pieceIndex = parseInt(draggedPiece.dataset.index);
+
+  // richtige Position prüfen
+  if (slotIndex === pieceIndex) {
+    this.appendChild(draggedPiece);
+    draggedPiece.style.position = "relative";
+    draggedPiece.style.left = "0";
+    draggedPiece.style.top = "0";
+    draggedPiece.style.cursor = "default";
+    draggedPiece.draggable = false;
+    correctCount++;
+    document.getElementById("puzzle-count").textContent = correctCount;
+
+    if (correctCount === 6) {
+      setTimeout(() => alert("Puzzle fertig! 🎉"), 200);
     }
   }
 
-  // Shuffle und anzeigen
-  pieces.sort(() => Math.random() - 0.5).forEach(p => puzzlePiecesContainer.appendChild(p));
+  draggedPiece = null;
+}
 
-  let draggedPiece = null;
+// --- Touch Support ---
+function touchStart(e) {
+  draggedPiece = this;
+  e.preventDefault();
+}
 
-  function dragStart(e) { draggedPiece = this; }
+function touchMove(e) {
+  if (!draggedPiece) return;
+  e.preventDefault();
+  const touch = e.touches[0];
+  draggedPiece.style.position = "absolute";
+  draggedPiece.style.left = touch.clientX - draggedPiece.offsetWidth/2 + "px";
+  draggedPiece.style.top = touch.clientY - draggedPiece.offsetHeight/2 + "px";
+  draggedPiece.style.zIndex = 1000;
+}
 
-  function dropPiece(e) {
-    if (!draggedPiece) return;
-    const slotIndex = parseInt(this.dataset.index);
-    const pieceIndex = parseInt(draggedPiece.dataset.index);
-
-    if (slotIndex === pieceIndex) {
-      this.appendChild(draggedPiece);
-      draggedPiece.style.position = "absolute";
-      draggedPiece.style.top = "0";
-      draggedPiece.style.left = "0";
-      draggedPiece.draggable = false;
-      correctCount++;
-      puzzleCount.textContent = correctCount;
-
-      if (correctCount === totalPieces) {
-        setTimeout(() => {
-          alert("Puzzle gelöst! 🎉 Weiter zum Quiz!");
-          document.getElementById("puzzle-container").style.display = "none";
-          showOnly("quiz-container");
-          startQuiz();
-        }, 300);
-      }
+function touchEnd(e) {
+  if (!draggedPiece) return;
+  // Prüfe Drop auf Slot
+  const slots = document.querySelectorAll(".puzzle-slot");
+  slots.forEach(slot => {
+    const rect = slot.getBoundingClientRect();
+    const x = e.changedTouches[0].clientX;
+    const y = e.changedTouches[0].clientY;
+    if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+      slot.dispatchEvent(new Event("drop", {bubbles:true, cancelable:true}));
     }
-    draggedPiece = null;
-  }
+  });
+  draggedPiece.style.position = "relative";
+  draggedPiece.style.zIndex = 1;
+  draggedPiece = null;
+}
 
-  // Mobile Touch Handlers
-  let touchOffsetX = 0;
-  let touchOffsetY = 0;
-
-  function touchStart(e) {
-    e.preventDefault();
-    draggedPiece = this;
-    const touch = e.touches[0];
-    const rect = draggedPiece.getBoundingClientRect();
-    touchOffsetX = touch.clientX - rect.left;
-    touchOffsetY = touch.clientY - rect.top;
-    draggedPiece.style.position = "absolute";
-    draggedPiece.style.zIndex = "1000";
-  }
-
-  function touchMove(e) {
-    e.preventDefault();
-    const touch = e.touches[0];
-    draggedPiece.style.left = (touch.clientX - touchOffsetX) + "px";
-    draggedPiece.style.top = (touch.clientY - touchOffsetY) + "px";
-  }
-
-  function touchEnd(e) {
-    const slots = document.querySelectorAll(".puzzle-slot");
-    let placed = false;
-    slots.forEach(slot => {
-      const rect = slot.getBoundingClientRect();
-      const pieceRect = draggedPiece.getBoundingClientRect();
-      if (
-        pieceRect.left + pieceRect.width/2 > rect.left &&
-        pieceRect.right - pieceRect.width/2 < rect.right &&
-        pieceRect.top + pieceRect.height/2 > rect.top &&
-        pieceRect.bottom - pieceRect.height/2 < rect.bottom
-      ) {
-        if (parseInt(slot.dataset.index) === parseInt(draggedPiece.dataset.index)) {
-          slot.appendChild(draggedPiece);
-          draggedPiece.style.position = "absolute";
-          draggedPiece.style.top = "0";
-          draggedPiece.style.left = "0";
-          draggedPiece.draggable = false;
-          correctCount++;
-          puzzleCount.textContent = correctCount;
-          placed = true;
-
-          if (correctCount === totalPieces) {
-            setTimeout(() => {
-              alert("Puzzle gelöst! 🎉 Weiter zum Quiz!");
-              document.getElementById("puzzle-container").style.display = "none";
-              showOnly("quiz-container");
-              startQuiz();
-            }, 300);
-          }
-        }
-      }
-    });
-
-    if (!placed) draggedPiece.style.position = "relative";
-    draggedPiece.style.zIndex = "1";
-    draggedPiece = null;
-  }
+// --- Hilfsfunktion ---
+function showOnly(id) {
+  document.querySelectorAll(".container").forEach(c => {
+    c.style.display = "none";
+  });
+  document.getElementById(id).style.display = "block";
 }
