@@ -505,7 +505,6 @@ function startFlashGame() {
 function startPuzzle() {
   showOnly("puzzle-container");
 
-  const puzzleContainer = document.getElementById("puzzle-container");
   const puzzleGrid = document.getElementById("puzzle-grid");
   const puzzlePiecesContainer = document.getElementById("puzzle-pieces");
   const puzzleCount = document.getElementById("puzzle-count");
@@ -514,11 +513,10 @@ function startPuzzle() {
   puzzlePiecesContainer.innerHTML = "";
   puzzleCount.textContent = "0";
 
-  const imagePath = "static/DSCF5081.jpg"; // dein Bild
+  const imagePath = "your_image.jpg"; // Pfad zum Bild
   const rows = 2;
-  const cols = 2;
+  const cols = 3;
   const totalPieces = rows * cols;
-
   let correctCount = 0;
 
   // Slots erstellen
@@ -540,13 +538,11 @@ function startPuzzle() {
       piece.classList.add("puzzle-piece");
       piece.draggable = true;
 
-      piece.style.objectFit = "cover";
-      piece.style.width = "120px";
-      piece.style.height = "120px";
-      piece.style.position = "relative";
-      piece.style.objectPosition = `${-(c*120)}px ${-(r*120)}px`;
-
-      piece.dataset.index = r*cols + c;
+      // Objektposition für das Zuschneiden
+      const xPercent = (c / (cols - 1)) * 100;
+      const yPercent = (r / (rows - 1)) * 100;
+      piece.style.objectPosition = `${xPercent}% ${yPercent}%`;
+      piece.dataset.index = r * cols + c;
 
       piece.addEventListener("dragstart", dragStart);
       piece.addEventListener("touchstart", touchStart, {passive:false});
@@ -562,9 +558,7 @@ function startPuzzle() {
 
   let draggedPiece = null;
 
-  function dragStart(e) {
-    draggedPiece = this;
-  }
+  function dragStart(e) { draggedPiece = this; }
 
   function dropPiece(e) {
     if (!draggedPiece) return;
@@ -583,7 +577,7 @@ function startPuzzle() {
       if (correctCount === totalPieces) {
         setTimeout(() => {
           alert("Puzzle gelöst! 🎉 Weiter zum Quiz!");
-          puzzleContainer.style.display = "none";
+          document.getElementById("puzzle-container").style.display = "none";
           showOnly("quiz-container");
           startQuiz();
         }, 300);
@@ -626,7 +620,6 @@ function startPuzzle() {
         pieceRect.top + pieceRect.height/2 > rect.top &&
         pieceRect.bottom - pieceRect.height/2 < rect.bottom
       ) {
-        // Prüfen ob korrekt
         if (parseInt(slot.dataset.index) === parseInt(draggedPiece.dataset.index)) {
           slot.appendChild(draggedPiece);
           draggedPiece.style.position = "absolute";
@@ -640,7 +633,7 @@ function startPuzzle() {
           if (correctCount === totalPieces) {
             setTimeout(() => {
               alert("Puzzle gelöst! 🎉 Weiter zum Quiz!");
-              puzzleContainer.style.display = "none";
+              document.getElementById("puzzle-container").style.display = "none";
               showOnly("quiz-container");
               startQuiz();
             }, 300);
@@ -648,9 +641,8 @@ function startPuzzle() {
         }
       }
     });
-    if (!placed) {
-      draggedPiece.style.position = "relative";
-    }
+
+    if (!placed) draggedPiece.style.position = "relative";
     draggedPiece.style.zIndex = "1";
     draggedPiece = null;
   }
