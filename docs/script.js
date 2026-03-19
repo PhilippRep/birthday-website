@@ -224,25 +224,34 @@ document.addEventListener("DOMContentLoaded", () => {
 // KLICK SPEED CHALLENGE
 // ======================
 
-function startSpeedChallenge() {showOnly("speed-container");
+function startSpeedChallenge() {
+  showOnly("speed-container");
+
   const speedContainer = document.getElementById("speed-container");
   const clickBtn = document.getElementById("speed-click-btn");
   const countSpan = document.getElementById("click-count");
   const timerSpan = document.getElementById("timer");
 
   let clicks = 0;
-  let seconds = 5; // Dauer der Challenge
+  let seconds = 5; // Dauer
   const minClicks = 35;
   const maxClicks = 50;
 
-  // Container sichtbar machen
-  speedContainer.style.display = "block";
-
-  // Klick-Button reset
   countSpan.textContent = "0";
   clicks = 0;
-
   clickBtn.disabled = false;
+
+  // ⚡ Stelle sicher, dass der Button sichtbar ist bevor wir touchstart binden
+  requestAnimationFrame(() => {
+    clickBtn.addEventListener("click", addClick);
+    clickBtn.addEventListener("touchstart", addClick, {passive:false});
+  });
+
+  function addClick(e) {
+    e.preventDefault();
+    clicks++;
+    countSpan.textContent = clicks;
+  }
 
   const interval = setInterval(() => {
     seconds--;
@@ -250,18 +259,20 @@ function startSpeedChallenge() {showOnly("speed-container");
     if (seconds <= 0) {
       clearInterval(interval);
       clickBtn.disabled = true;
+      clickBtn.removeEventListener("click", addClick);
+      clickBtn.removeEventListener("touchstart", addClick);
 
-      // Erfolg prüfen
       if (clicks >= minClicks && clicks <= maxClicks) {
         alert(`Super! Du hast ${clicks} Klicks geschafft! Weiter zum Button Game 🎉`);
         speedContainer.style.display = "none";
         startMovingGame();
       } else {
         alert(`Schade 😢 Du hattest ${clicks} Klicks. Versuch's noch einmal!`);
-        startSpeedChallenge(); // nochmal starten
+        startSpeedChallenge();
       }
     }
   }, 1000);
+}
 
   // Klick-Handler
 clickBtn.addEventListener("click", () => { clicks++; countSpan.textContent = clicks; });
@@ -285,11 +296,14 @@ function startMovingGame() {
 
   let hits = 0;
   const targetHits = 4;
-  let size = 1; // Startgröße
-  let speed = 1; // Geschwindigkeit
+  let size = 1;
+  let speed = 1;
 
   container.style.display = "block";
   counter.textContent = "0";
+
+  // ⚡ Wichtiger Fix: Button bewegen NACHDEM Container sichtbar ist
+  requestAnimationFrame(() => moveButton());
 
   function moveButton() {
     const maxX = area.clientWidth - btn.offsetWidth;
@@ -317,28 +331,27 @@ function startMovingGame() {
     setTimeout(() => fake.remove(), 1500);
   }
 
-  // Startposition
-  moveButton();
-
   // Bewegung
-  btn.onmouseover = () => { for (let i=0; i<speed; i++) moveButton(); }
-
-  btn.ontouchstart = (e) => {
-    e.preventDefault(); // 🔹 verhindert Scroll/Zoom auf iOS/Android
-    for (let i=0; i<speed; i++) moveButton();
+  const moveHandler = (e) => {
+    e.preventDefault();
+    for (let i = 0; i < speed; i++) moveButton();
   };
 
-  // Klick
+  btn.onmouseover = moveHandler;
+  btn.ontouchstart = moveHandler;
+
   btn.onclick = (e) => {
     e.preventDefault();
     hits++;
     counter.textContent = hits;
+
     size -= 0.15;
     if (size < 0.5) size = 0.5;
     btn.style.transform = `scale(${size})`;
     speed++;
     spawnFakeButton();
     moveButton();
+
     if (hits >= targetHits) {
       alert("DU HAST IHN GEFANGEN 😈🔥 Weiter zum Quiz!");
       container.style.display = "none";
