@@ -497,9 +497,6 @@ function startFlashGame() {
 let draggedPiece = null;
 let correctCount = 0;
 
-let draggedPiece = null;
-let correctCount = 0;
-
 function startPuzzle() {
     showOnly("puzzle-container");
 
@@ -511,10 +508,11 @@ function startPuzzle() {
     puzzlePiecesContainer.innerHTML = "";
     puzzleCount.textContent = "0";
 
-    const imagePath = "DSCF5081.jpg"; // <--- hier dein Bild einsetzen
+    correctCount = 0; // ✅ Reset beim Neustart
+
+    const imagePath = "DSCF5081.jpg"; // <--- dein Bild
     const rows = 2;
     const cols = 3;
-    let correctCount = 0;
 
     const img = new Image();
     img.src = imagePath;
@@ -541,6 +539,7 @@ function startPuzzle() {
                 canvas.height = pieceHeight;
                 const ctx = canvas.getContext("2d");
                 ctx.drawImage(img, c * pieceWidth, r * pieceHeight, pieceWidth, pieceHeight, 0, 0, pieceWidth, pieceHeight);
+
                 const pieceImg = new Image();
                 pieceImg.src = canvas.toDataURL();
                 pieceImg.classList.add("puzzle-piece");
@@ -559,76 +558,70 @@ function startPuzzle() {
         // Shuffle und anzeigen
         pieces.sort(() => Math.random() - 0.5).forEach(p => puzzlePiecesContainer.appendChild(p));
     };
+}
 
-    let draggedPiece = null;
-
-    function dragStart(e) { draggedPiece = this; }
-    function dropPiece(e) {
-        e.preventDefault();
-        if (draggedPiece && this.children.length === 0) {
-            this.appendChild(draggedPiece);
-            draggedPiece.style.width = "100%";
-            draggedPiece.style.height = "100%";
-            correctCount++;
-            puzzleCount.textContent = correctCount;
-            draggedPiece = null;
-        }
-    }
-
-    // Touch Events
-    let touchOffsetX = 0, touchOffsetY = 0;
-    function touchStart(e) {
-        e.preventDefault();
-        draggedPiece = this;
-        const touch = e.touches[0];
-        const rect = this.getBoundingClientRect();
-        touchOffsetX = touch.clientX - rect.left;
-        touchOffsetY = touch.clientY - rect.top;
-        this.style.position = "absolute";
-        this.style.zIndex = "1000";
-        document.body.appendChild(this);
-        moveAt(touch.clientX, touch.clientY);
-    }
-
-    function touchMove(e) {
-        e.preventDefault();
-        const touch = e.touches[0];
-        moveAt(touch.clientX, touch.clientY);
-    }
-
-    function moveAt(x, y) {
-        draggedPiece.style.left = (x - touchOffsetX) + "px";
-        draggedPiece.style.top = (y - touchOffsetY) + "px";
-    }
-
-    function touchEnd(e) {
-        draggedPiece.style.position = "";
-        draggedPiece.style.zIndex = "";
-        let placed = false;
-        document.querySelectorAll(".puzzle-slot").forEach(slot => {
-            const rect = slot.getBoundingClientRect();
-            const pieceRect = draggedPiece.getBoundingClientRect();
-            if (
-                pieceRect.left + pieceRect.width/2 > rect.left &&
-                pieceRect.left + pieceRect.width/2 < rect.right &&
-                pieceRect.top + pieceRect.height/2 > rect.top &&
-                pieceRect.top + pieceRect.height/2 < rect.bottom &&
-                slot.children.length === 0
-            ) {
-                slot.appendChild(draggedPiece);
-                draggedPiece.style.width = "100%";
-                draggedPiece.style.height = "100%";
-                correctCount++;
-                puzzleCount.textContent = correctCount;
-                placed = true;
-            }
-        });
-        if (!placed) puzzlePiecesContainer.appendChild(draggedPiece);
+// Drag & Drop
+function dragStart(e) { draggedPiece = this; }
+function dropPiece(e) {
+    e.preventDefault();
+    if (draggedPiece && this.children.length === 0) {
+        this.appendChild(draggedPiece);
+        draggedPiece.style.width = "100%";
+        draggedPiece.style.height = "100%";
+        correctCount++;
+        document.getElementById("puzzle-count").textContent = correctCount;
         draggedPiece = null;
     }
 }
 
-function showOnly(id) {
-    document.querySelectorAll(".container").forEach(c => c.style.display = "none");
-    document.getElementById(id).style.display = "block";
+// Touch Events
+let touchOffsetX = 0, touchOffsetY = 0;
+function touchStart(e) {
+    e.preventDefault();
+    draggedPiece = this;
+    const touch = e.touches[0];
+    const rect = this.getBoundingClientRect();
+    touchOffsetX = touch.clientX - rect.left;
+    touchOffsetY = touch.clientY - rect.top;
+    this.style.position = "absolute";
+    this.style.zIndex = "1000";
+    document.body.appendChild(this);
+    moveAt(touch.clientX, touch.clientY);
+}
+
+function touchMove(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    moveAt(touch.clientX, touch.clientY);
+}
+
+function moveAt(x, y) {
+    draggedPiece.style.left = (x - touchOffsetX) + "px";
+    draggedPiece.style.top = (y - touchOffsetY) + "px";
+}
+
+function touchEnd(e) {
+    draggedPiece.style.position = "";
+    draggedPiece.style.zIndex = "";
+    let placed = false;
+    document.querySelectorAll(".puzzle-slot").forEach(slot => {
+        const rect = slot.getBoundingClientRect();
+        const pieceRect = draggedPiece.getBoundingClientRect();
+        if (
+            pieceRect.left + pieceRect.width/2 > rect.left &&
+            pieceRect.left + pieceRect.width/2 < rect.right &&
+            pieceRect.top + pieceRect.height/2 > rect.top &&
+            pieceRect.top + pieceRect.height/2 < rect.bottom &&
+            slot.children.length === 0
+        ) {
+            slot.appendChild(draggedPiece);
+            draggedPiece.style.width = "100%";
+            draggedPiece.style.height = "100%";
+            correctCount++;
+            document.getElementById("puzzle-count").textContent = correctCount;
+            placed = true;
+        }
+    });
+    if (!placed) document.getElementById("puzzle-pieces").appendChild(draggedPiece);
+    draggedPiece = null;
 }
