@@ -264,16 +264,12 @@ function startSpeedChallenge() {showOnly("speed-container");
   }, 1000);
 
   // Klick-Handler
-clickBtn.onclick = (e) => {
+clickBtn.addEventListener("click", () => { clicks++; countSpan.textContent = clicks; });
+clickBtn.addEventListener("touchstart", (e) => {
     e.preventDefault();
     clicks++;
     countSpan.textContent = clicks;
-}
-clickBtn.ontouchstart = (e) => {
-    e.preventDefault();
-    clicks++;
-    countSpan.textContent = clicks;
-}
+}, {passive:false});
 
 // ======================
 // MOVING BUTTON GAME (HARD MODE 😈)
