@@ -497,6 +497,9 @@ function startFlashGame() {
 let draggedPiece = null;
 let correctCount = 0;
 
+let draggedPiece = null;
+let correctCount = 0;
+
 function startPuzzle() {
   showOnly("puzzle-container");
 
@@ -509,12 +512,13 @@ function startPuzzle() {
   puzzleCount.textContent = "0";
   correctCount = 0;
 
-  const imagePath = "DSCF5081.jpg"; // Hochkantbild
+  const imagePath = "DSCF5081.jpg"; // Hier dein Hochkantbild
   const rows = 2;
   const cols = 3;
 
   const img = new Image();
   img.src = imagePath;
+
   img.onload = function() {
     const pieceWidth = img.width / cols;
     const pieceHeight = img.height / rows;
@@ -538,14 +542,14 @@ function startPuzzle() {
         piece.draggable = true;
         piece.dataset.index = r * cols + c;
 
-        // Bild als Hintergrund setzen
-        piece.style.width = pieceWidth + "px";
-        piece.style.height = pieceHeight + "px";
-        piece.style.backgroundImage = `url(${imagePath})`;
-        piece.style.backgroundPosition = `-${c * pieceWidth}px -${r * pieceHeight}px`;
-        piece.style.backgroundSize = `${img.width}px ${img.height}px`;
+        piece.style.width = (100 / cols) + "%"; // responsive Breite
+        piece.style.paddingTop = (100 / cols * pieceHeight/pieceWidth) + "%"; // Höhe proportional
 
-        // Drag & Touch Events
+        piece.style.backgroundImage = `url(${imagePath})`;
+        piece.style.backgroundPosition = `-${c * 100/cols}% -${r * 100/rows}%`;
+        piece.style.backgroundSize = `${cols*100}% ${rows*100}%`;
+
+        // Events
         piece.addEventListener("dragstart", dragStart);
         piece.addEventListener("touchstart", touchStart, {passive:false});
         piece.addEventListener("touchmove", touchMove, {passive:false});
@@ -555,7 +559,7 @@ function startPuzzle() {
       }
     }
 
-    // Pieces mischen
+    // Shuffle Pieces
     pieces.sort(() => Math.random() - 0.5);
     pieces.forEach(p => puzzlePiecesContainer.appendChild(p));
   };
@@ -573,7 +577,6 @@ function dropPiece(e) {
   const slotIndex = parseInt(this.dataset.index);
   const pieceIndex = parseInt(draggedPiece.dataset.index);
 
-  // richtige Position prüfen
   if (slotIndex === pieceIndex) {
     this.appendChild(draggedPiece);
     draggedPiece.style.position = "relative";
@@ -610,7 +613,6 @@ function touchMove(e) {
 
 function touchEnd(e) {
   if (!draggedPiece) return;
-  // Prüfe Drop auf Slot
   const slots = document.querySelectorAll(".puzzle-slot");
   slots.forEach(slot => {
     const rect = slot.getBoundingClientRect();
