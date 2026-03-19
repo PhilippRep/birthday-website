@@ -505,137 +505,134 @@ let draggedPiece = null;
 let correctCount = 0;
 
 function startPuzzle() {
-  showOnly("puzzle-container");
+    showOnly("puzzle-container");
 
-  const puzzleGrid = document.getElementById("puzzle-grid");
-  const puzzlePiecesContainer = document.getElementById("puzzle-pieces");
-  const puzzleCount = document.getElementById("puzzle-count");
+    const puzzleGrid = document.getElementById("puzzle-grid");
+    const puzzlePiecesContainer = document.getElementById("puzzle-pieces");
+    const puzzleCount = document.getElementById("puzzle-count");
 
-  puzzleGrid.innerHTML = "";
-  puzzlePiecesContainer.innerHTML = "";
-  puzzleCount.textContent = "0";
-  correctCount = 0;
+    puzzleGrid.innerHTML = "";
+    puzzlePiecesContainer.innerHTML = "";
+    puzzleCount.textContent = "0";
 
-  const imagePath = "/static/DSCF5081.jpg"; // Hochkantbild
-  const rows = 2;
-  const cols = 3;
+    const imagePath = "/static/DSCF5081.jpg"; // <--- hier dein Bild einsetzen
+    const rows = 2;
+    const cols = 3;
+    let correctCount = 0;
 
-  const img = new Image();
-  img.src = imagePath;
-  img.onload = function() {
-    const pieceWidth = img.width / cols;
-    const pieceHeight = img.height / rows;
+    const img = new Image();
+    img.src = imagePath;
+    img.onload = function() {
+        const pieceWidth = img.width / cols;
+        const pieceHeight = img.height / rows;
 
-    // --- Slots erstellen ---
-    for (let i = 0; i < rows * cols; i++) {
-      const slot = document.createElement("div");
-      slot.classList.add("puzzle-slot");
-      slot.dataset.index = i;
-      slot.addEventListener("dragover", e => e.preventDefault());
-      slot.addEventListener("drop", dropPiece);
-      puzzleGrid.appendChild(slot);
+        // Slots erstellen
+        for (let i = 0; i < rows * cols; i++) {
+            const slot = document.createElement("div");
+            slot.classList.add("puzzle-slot");
+            slot.dataset.index = i;
+            slot.addEventListener("dragover", e => e.preventDefault());
+            slot.addEventListener("drop", dropPiece);
+            puzzleGrid.appendChild(slot);
+        }
+
+        // Pieces aus Canvas schneiden
+        const pieces = [];
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                const canvas = document.createElement("canvas");
+                canvas.width = pieceWidth;
+                canvas.height = pieceHeight;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, c * pieceWidth, r * pieceHeight, pieceWidth, pieceHeight, 0, 0, pieceWidth, pieceHeight);
+                const pieceImg = new Image();
+                pieceImg.src = canvas.toDataURL();
+                pieceImg.classList.add("puzzle-piece");
+                pieceImg.draggable = true;
+                pieceImg.dataset.index = r * cols + c;
+
+                pieceImg.addEventListener("dragstart", dragStart);
+                pieceImg.addEventListener("touchstart", touchStart, {passive:false});
+                pieceImg.addEventListener("touchmove", touchMove, {passive:false});
+                pieceImg.addEventListener("touchend", touchEnd);
+
+                pieces.push(pieceImg);
+            }
+        }
+
+        // Shuffle und anzeigen
+        pieces.sort(() => Math.random() - 0.5).forEach(p => puzzlePiecesContainer.appendChild(p));
+    };
+
+    let draggedPiece = null;
+
+    function dragStart(e) { draggedPiece = this; }
+    function dropPiece(e) {
+        e.preventDefault();
+        if (draggedPiece && this.children.length === 0) {
+            this.appendChild(draggedPiece);
+            draggedPiece.style.width = "100%";
+            draggedPiece.style.height = "100%";
+            correctCount++;
+            puzzleCount.textContent = correctCount;
+            draggedPiece = null;
+        }
     }
 
-    // --- Pieces erstellen ---
-    const pieces = [];
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const piece = document.createElement("div");
-        piece.classList.add("puzzle-piece");
-        piece.draggable = true;
-        piece.dataset.index = r * cols + c;
-
-        // Bild als Hintergrund setzen
-        piece.style.width = pieceWidth + "px";
-        piece.style.height = pieceHeight + "px";
-        piece.style.backgroundImage = `url(${imagePath})`;
-        piece.style.backgroundPosition = `-${c * pieceWidth}px -${r * pieceHeight}px`;
-        piece.style.backgroundSize = `${img.width}px ${img.height}px`;
-
-        // Drag & Touch Events
-        piece.addEventListener("dragstart", dragStart);
-        piece.addEventListener("touchstart", touchStart, {passive:false});
-        piece.addEventListener("touchmove", touchMove, {passive:false});
-        piece.addEventListener("touchend", touchEnd);
-
-        pieces.push(piece);
-      }
+    // Touch Events
+    let touchOffsetX = 0, touchOffsetY = 0;
+    function touchStart(e) {
+        e.preventDefault();
+        draggedPiece = this;
+        const touch = e.touches[0];
+        const rect = this.getBoundingClientRect();
+        touchOffsetX = touch.clientX - rect.left;
+        touchOffsetY = touch.clientY - rect.top;
+        this.style.position = "absolute";
+        this.style.zIndex = "1000";
+        document.body.appendChild(this);
+        moveAt(touch.clientX, touch.clientY);
     }
 
-    // Pieces mischen
-    pieces.sort(() => Math.random() - 0.5);
-    pieces.forEach(p => puzzlePiecesContainer.appendChild(p));
-  };
-}
-
-// --- Drag & Drop ---
-function dragStart(e) {
-  draggedPiece = this;
-}
-
-function dropPiece(e) {
-  e.preventDefault();
-  if (!draggedPiece) return;
-
-  const slotIndex = parseInt(this.dataset.index);
-  const pieceIndex = parseInt(draggedPiece.dataset.index);
-
-  // richtige Position prüfen
-  if (slotIndex === pieceIndex) {
-    this.appendChild(draggedPiece);
-    draggedPiece.style.position = "relative";
-    draggedPiece.style.left = "0";
-    draggedPiece.style.top = "0";
-    draggedPiece.style.cursor = "default";
-    draggedPiece.draggable = false;
-    correctCount++;
-    document.getElementById("puzzle-count").textContent = correctCount;
-
-    if (correctCount === 6) {
-      setTimeout(() => alert("Puzzle fertig! 🎉"), 200);
+    function touchMove(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        moveAt(touch.clientX, touch.clientY);
     }
-  }
 
-  draggedPiece = null;
-}
-
-// --- Touch Support ---
-function touchStart(e) {
-  draggedPiece = this;
-  e.preventDefault();
-}
-
-function touchMove(e) {
-  if (!draggedPiece) return;
-  e.preventDefault();
-  const touch = e.touches[0];
-  draggedPiece.style.position = "absolute";
-  draggedPiece.style.left = touch.clientX - draggedPiece.offsetWidth/2 + "px";
-  draggedPiece.style.top = touch.clientY - draggedPiece.offsetHeight/2 + "px";
-  draggedPiece.style.zIndex = 1000;
-}
-
-function touchEnd(e) {
-  if (!draggedPiece) return;
-  // Prüfe Drop auf Slot
-  const slots = document.querySelectorAll(".puzzle-slot");
-  slots.forEach(slot => {
-    const rect = slot.getBoundingClientRect();
-    const x = e.changedTouches[0].clientX;
-    const y = e.changedTouches[0].clientY;
-    if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
-      slot.dispatchEvent(new Event("drop", {bubbles:true, cancelable:true}));
+    function moveAt(x, y) {
+        draggedPiece.style.left = (x - touchOffsetX) + "px";
+        draggedPiece.style.top = (y - touchOffsetY) + "px";
     }
-  });
-  draggedPiece.style.position = "relative";
-  draggedPiece.style.zIndex = 1;
-  draggedPiece = null;
+
+    function touchEnd(e) {
+        draggedPiece.style.position = "";
+        draggedPiece.style.zIndex = "";
+        let placed = false;
+        document.querySelectorAll(".puzzle-slot").forEach(slot => {
+            const rect = slot.getBoundingClientRect();
+            const pieceRect = draggedPiece.getBoundingClientRect();
+            if (
+                pieceRect.left + pieceRect.width/2 > rect.left &&
+                pieceRect.left + pieceRect.width/2 < rect.right &&
+                pieceRect.top + pieceRect.height/2 > rect.top &&
+                pieceRect.top + pieceRect.height/2 < rect.bottom &&
+                slot.children.length === 0
+            ) {
+                slot.appendChild(draggedPiece);
+                draggedPiece.style.width = "100%";
+                draggedPiece.style.height = "100%";
+                correctCount++;
+                puzzleCount.textContent = correctCount;
+                placed = true;
+            }
+        });
+        if (!placed) puzzlePiecesContainer.appendChild(draggedPiece);
+        draggedPiece = null;
+    }
 }
 
-// --- Hilfsfunktion ---
 function showOnly(id) {
-  document.querySelectorAll(".container").forEach(c => {
-    c.style.display = "none";
-  });
-  document.getElementById(id).style.display = "block";
+    document.querySelectorAll(".container").forEach(c => c.style.display = "none");
+    document.getElementById(id).style.display = "block";
 }

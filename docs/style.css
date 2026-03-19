@@ -190,36 +190,38 @@ button {
   justify-content: center;
   margin-top: 15px;
 }
-
 #puzzle-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 5px;
-  margin: 20px auto;
-  max-width: 360px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 5px;
+    margin: 15px 0;
+    width: 100%;
+    aspect-ratio: 3/2; /* sorgt für korrektes Verhältnis */
+    background: #eee;
+    border-radius: 12px;
+    position: relative;
 }
 
 .puzzle-slot {
-  border: 2px dashed #cbb8ff;
-  position: relative;
-  width: 100%;
-  padding-top: 150%; /* Verhältnis 2:3 (hochkant) – passt sich dynamisch an */
-  background: #f3e8dc;
-  border-radius: 8px;
+    border: 2px dashed #cbb8ff;
+    border-radius: 8px;
+    position: relative;
 }
 
 #puzzle-pieces {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 15px;
 }
 
 .puzzle-piece {
-  width: 100px; /* wird später dynamisch gesetzt */
-  height: 150px; /* wird später dynamisch gesetzt */
-  margin: 5px;
-  cursor: grab;
-  border-radius: 8px;
-  touch-action: none; /* verhindert Scrollen bei Mobil Drag */
+    width: 100px;
+    height: auto;
+    cursor: grab;
+    touch-action: none;
+    border-radius: 8px;
+    user-select: none;
 }
