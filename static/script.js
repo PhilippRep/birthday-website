@@ -361,7 +361,7 @@ function startMovingGame() {showOnly("move-container");
     moveButton();
 
     if (hits >= targetHits) {
-      alert("DU HAST IHN GEFANGEN 😈🔥 Weiter zum Quiz!");
+      alert("DU HAST IHN GEFANGEN 😈🔥 Weiter zum Emoyi Catcher!");
 
       container.style.display = "none";
       showOnly("quiz-container");
@@ -421,9 +421,9 @@ function startEmojiCatcher() { showOnly("emoji-container");
       // Schwierigkeit erhöhen
       spawnEmoji();
       if (caught >= target) {
-        alert("Super! Du hast die Emojis gefangen! 🎉 Weiter zum Quiz!");
+        alert("Super! Du hast die Emojis gefangen! 🎉 Weiter zum Memory Flash!");
         showOnly("quiz-container");
-        startQuiz();
+        startFlashGame();
       }
     };
   }
@@ -435,4 +435,69 @@ function startEmojiCatcher() { showOnly("emoji-container");
     if (caught >= target) clearInterval(spawnInterval);
     spawnEmoji();
   }, 1500);
+}
+
+function startFlashGame() {
+  showOnly("flash-container");
+
+  const flashSequenceDiv = document.getElementById("flash-sequence");
+  const flashButtonsDiv = document.getElementById("flash-buttons");
+  const progressSpan = document.getElementById("flash-progress");
+
+  const symbols = ["🐶","🌴","🎁","☀️","🍓","🎂"];
+  const targetLength = 5; // Anzahl der Symbole, die gemerkt werden müssen
+  let sequence = [];
+  let userInput = [];
+  let index = 0;
+
+  progressSpan.textContent = index;
+
+  // Buttons erstellen
+  flashButtonsDiv.innerHTML = "";
+  symbols.forEach(sym => {
+    const btn = document.createElement("button");
+    btn.textContent = sym;
+    btn.onclick = () => {
+      userInput.push(sym);
+      if (sym === sequence[userInput.length - 1]) {
+        index++;
+        progressSpan.textContent = index;
+        if (userInput.length === sequence.length) {
+          alert("Super! 🎉 Du hast die Sequenz richtig! Weiter zum Quiz!");
+          showOnly("quiz-container");
+          startQuiz();
+        }
+      } else {
+        alert("Falsch 😢 Versuch es nochmal!");
+        startFlashGame(); // Neustart
+      }
+    };
+    flashButtonsDiv.appendChild(btn);
+  });
+
+  // Sequenz erzeugen
+  sequence = [];
+  for (let i = 0; i < targetLength; i++) {
+    const random = symbols[Math.floor(Math.random() * symbols.length)];
+    sequence.push(random);
+  }
+
+  // Sequenz anzeigen nacheinander
+  flashSequenceDiv.textContent = "";
+  let i = 0;
+  const interval = setInterval(() => {
+    flashSequenceDiv.textContent = sequence[i];
+    i++;
+    if (i >= sequence.length) {
+      clearInterval(interval);
+      setTimeout(() => {
+        flashSequenceDiv.textContent = ""; // ausblenden
+      }, 800);
+    }
+  }, 800);
+
+  // Reset User Input
+  userInput = [];
+  index = 0;
+  progressSpan.textContent = index;
 }
