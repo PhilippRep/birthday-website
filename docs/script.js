@@ -509,7 +509,7 @@ function startPuzzle() {
   puzzleCount.textContent = "0";
   correctCount = 0;
 
-  const imagePath = "your_image.jpg"; // Hochkantbild
+  const imagePath = "DSCF5081.jpg"; // Hochkantbild
   const rows = 2;
   const cols = 3;
 
