@@ -120,9 +120,87 @@ let questions = [
     { q:"Wie heißt die Hauptstadt von Irland?", a:["Belfast","Dublin","Cork"], correct:1 },
     { q:"In welchem Land liegt Stonehenge?", a:["Irland","England","Schottland"], correct:1 },
     { q:"Welche Farbe hat die irische Flagge NICHT?", a:["Orange","Grün","Blau"], correct:2 },
+    { q: "Warum sind Erdbeeren süßer bei Sonne?", a:["Mehr Wasser", "Mehr Zuckerbildung", "Weniger Säure"], correct: 1 },
+    { q: "Hauptstadt von England?", a:["Manchester", "London", "Liverpool"], correct: 1 },
+    { q: "Wie viele Geruchsrezeptoren hat ein Hund?", a:["50 Mio", "220 Mio", "500 Mio"], correct: 1 },
+    { q: "Was ist ein Kiwi?", a:["Säugetier", "Vogel", "Reptil"], correct: 1 },
+    { q: "Warum gelten Esel als stur?", a:["Faulheit", "Vorsicht", "Aggressivität"], correct: 1 },
+    { q: "Wie viele Mägen hat eine Kuh?", a:["Vier", "Einen mit vier Kammern", "Zwei"], correct: 1 },
+    { q: "Was bedeutet vegan?", a:["Kein Fleisch", "Keine tierischen Produkte", "Nur Gemüse"], correct: 1 },
+    { q: "Welches Tier gilt als unterschätzt intelligent?", a:["Kuh", "Esel", "Schaf"], correct: 1 },
+    { q: "Was ist der rote Teil der Erdbeere?", a:["Fruchtfleisch", "Scheinfrucht", "Samen"], correct: 1 },
+    { q: "Warum war Titanic erfolgreich?", a:["Effekte", "Mix aus allem", "Keine Konkurrenz"], correct: 1 },
+    { q: "Warum produzieren Kühe Methan?", a:["Luft", "Mikroorganismen", "Bewegung"], correct: 1 },
+    { q: "Wie nennt man einen männlichen Esel?", a:["Bock", "Hengst", "Widder"], correct: 1 },
+    { q: "Warum kaum Säugetiere in Neuseeland?", a:["Kälte", "Isolation", "Vulkane"], correct: 1 },
+    { q: "Hauptstadt von Irland?", a:["Cork", "Dublin", "Galway"], correct: 1 },
+    { q: "Warum riechen Hunde besser?", a:["Größere Nase", "Mehr Riechzellen", "Schnellere Atmung"], correct: 1 },
+    { q: "Typische Landschaft Kreta?", a:["Wüste", "Berge & Strände", "Regenwald"], correct: 1 },
+    { q: "Was verbindet viele Themen?", a:["Technik", "Natur", "Industrie"], correct: 1 },
+    { q: "Was ist Loch Ness?", a:["Fluss", "See", "Gebirge"], correct: 1 },
+    { q: "Warum Quarter-Life-Crisis?", a:["Geld", "Orientierung", "Gesundheit"], correct: 1 },
+    { q: "Welche Hunderasse gilt als besonders intelligent?", a:["Pudel", "Border Collie", "Deutscher Schäferhund"], correct: 1 },
+    { q: "Wie viele Zähne hat ein erwachsener Hund?", a:["40", "42", "44"], correct: 1 },
+    { q: "Was bedeutet Vanlife?", a:["Im Van leben", "Urlaub machen", "Pendeln"], correct: 0 },
+    { q: "Warum können Kühe schlecht Treppen gehen?", a:["Schlechte Sicht nach unten", "Zu schwere Körper", "Zu kurze Beine"], correct: 0 },
+    { q: "Was passiert im Pansen?", a:["Fettverdauung", "Mikrobielle Gärung", "Eiweißabbau"], correct: 1 },
+    { q: "Nationalfeiertag Irlands?", a:["St. Patrick’s Day", "Independence Day", "Green Day"], correct: 0 },
+    { q: "Wie viele Hauptinseln hat Neuseeland?", a:["1", "2", "3"], correct: 1 },
+    { q: "Warum war Kreta wichtig?", a:["Bodenschätze", "Handel", "Klima"], correct: 1 },
+    { q: "Was ist ein Kilt?", a:["Hut", "Rock", "Jacke"], correct: 1 },
+    { q: "Wie funktioniert ein Dudelsack?", a:["Luftsackdruck", "Elektronik", "Metall"], correct: 0 },
+    { q: "Warum sind Esel trittsicher?", a:["Muskeln", "Vorsicht & Bau", "Gewicht"], correct: 1 },
+    { q: "Zu welcher Familie gehören Erdbeeren?", a:["Rosengewächse", "Nachtschattengewächse", "Kürbisgewächse"], correct: 0 },
+    { q: "Sind Erdbeeren echte Beeren?", a:["Ja", "Nein", "Nur im Sommer"], correct: 1 },
+    { q: "Wo sitzen die Samen der Erdbeere?", a:["Innen", "Außen", "Im Kern"], correct: 1 },
+    { q: "Was ist der Union Jack?", a:["Flagge Englands", "Flagge UK", "Militärflagge"], correct: 1 },
+    { q: "Auf welcher Seite fährt man in England?", a:["Rechts", "Links", "Beidseitig"], correct: 1 },
+    { q: "Typisches Instrument Schottlands?", a:["Geige", "Dudelsack", "Flöte"], correct: 1 },
+    { q: "Kreta gehört zu welchem Land?", a:["Italien", "Griechenland", "Türkei"], correct: 1 },
+    { q: "Welche Kultur war auf Kreta?", a:["Römer", "Minoer", "Ägypter"], correct: 1 },
+    { q: "Wer sind die Māori?", a:["Einwanderer", "Ureinwohner", "Sprache"], correct: 1 },
+    { q: "Warum viele Schafe?", a:["Klima", "Religion", "Zufall"], correct: 0 },
+    { q: "Nachteil von Vanlife?", a:["Zu viel Platz", "Wenig Privatsphäre", "Zu viele Möbel"], correct: 1 },
+    { q: "Wildcampen ist…", a:["Überall erlaubt", "Unterschiedlich geregelt", "Verboten"], correct: 1 },
+    { q: "Welcher Film erschien 1997?", a:["Avatar", "Titanic", "Matrix"], correct: 1 },
+    { q: "Welches Tier wurde 1997 berühmt?", a:["Dolly", "Timmy", "Babe"], correct: 0 },
+    { q: "Welche Musik war typisch 1997?", a:["Pop/Boybands", "Klassik", "Jazz"], correct: 0 },
+    { q: "Ende der 20er bedeutet?", a:["25–27", "27–29", "30–32"], correct: 1 },
+    { q: "Typisch für Ende 20?", a:["Schule", "Lebensplanung", "Rente"], correct: 1 },
+    { q: "Wichtiger Nährstoff?", a:["Vitamin C", "Vitamin B12", "Zucker"], correct: 1 },
+    { q: "Ist Honig vegan?", a:["Ja", "Nein", "Manchmal"], correct: 1 },
+    { q: "Warum ist pflanzliches Eisen schwerer aufzunehmen?", a:["Menge", "Chemische Form", "Abbau"], correct: 1 },
+    { q: "Welcher Sinn ist bei Hunden am stärksten ausgeprägt?", a:["Sehsinn", "Geruchssinn", "Hörsinn"], correct: 1 },
+    { q: "Wie wird Irland genannt?", a:["Grüne Insel", "Rote Insel", "Blaue Insel"], correct: 0 },
+    { q: "Esel stammen ursprünglich aus…", a:["Europa", "Afrika", "Asien"], correct: 1 },
+    { q: "Problem im Vanlife?", a:["Zu viel Strom", "Wasser", "Zu viel Platz"], correct: 1 },
+    { q: "Warum Solarpanels?", a:["Deko", "Strom", "Internet"], correct: 1 },
+    { q: "Was gab es 1997 NICHT?", a:["Internet", "Smartphones verbreitet", "Computer"], correct: 1 },
+    { q: "Welche Farbe hat ein Eisbär wirklich?", a:["Weiß", "Schwarz", "Transparentes Fell über dunkler Haut"], correct: 2 },
+    { q: "Wo befindet sich der Großteil der Masse einer Pflanze?", a:["Aus dem Boden", "Aus Wasser", "Aus CO₂ aus der Luft"], correct: 2 },
+    { q: "Was ist Glas eigentlich?", a:["Festkörper", "Flüssigkeit", "Amorpher Feststoff (keine klare Kristallstruktur)"], correct: 2 },
+    { q: "Was ist eine Tomate botanisch?", a:["Gemüse", "Beere", "Steinfrucht"], correct: 1 },
+    { q: "Was passiert mit deinem Körper im Weltall ohne Schutz zuerst?", a:["Er friert sofort ein", "Er explodiert", "Er verliert schnell Sauerstoff und Bewusstsein tritt ein"], correct: 2 },
+    { q: "Welches Tier hat technisch gesehen mehr Beine?", a:["Spinne", "Insekt", "Beide gleich viele"], correct: 0 },
+    { q: "Was ist die häufigste chemische Verbindung im menschlichen Körper?", a:["Eiweiß", "Wasser", "Fett"], correct: 1 },
+    { q: "Was ist die Hauptstadt der Türkei?", a:["Istanbul", "Ankara", "Izmir"], correct: 1 },
+    { q: "Was ist näher verwandt mit einem Menschen?", a:["Affe", "Schwein", "Affen (Primaten)"], correct: 2 },
+    { q: "Was ist ein Stern wie unsere Sonne?", a:["Brennendes Gas", "Kernfusionsreaktor", "Plasma-Kugel ohne Reaktion"], correct: 1 },
+    { q: "Was ist der größte Teil eines Eisbergs?", a:["Über Wasser", "Unter Wasser", "Gleich verteilt"], correct: 1 },
+    { q: "Was misst man in Kelvin?", a:["Energie", "Temperatur", "Druck"], correct: 1 },
+    { q: "Was ist schneller: Licht oder Strom?", a:["Licht", "Strom", "Kommt darauf an, aber Licht ist die Referenzgeschwindigkeit"], correct: 2 },
+    { q: "Was ist ein Virus?", a:["Lebewesen", "Nicht-lebendig, aber biologisch aktiv", "Bakterium"], correct: 1 },
+    { q: "Was passiert mit Metall bei Kälte?", a:["Es dehnt sich aus", "Es zieht sich zusammen", "Es bleibt gleich"], correct: 1},
+    { q: "Was ist die häufigste Farbe im Universum?", a:["Schwarz", "Beige (Cosmic Latte)", "Blau"], correct: 1 },
+    { q: "Was ist ein Jahr astronomisch gesehen?", a:["365 Tage", "Eine Erdrotation", "Umlauf der Erde um die Sonne"], correct: 2 },
+    { q: "Was ist die größte Wüste der Erde?", a:["Sahara", "Antarktis", "Gobi"], correct: 1 },
+    { q: "Was ist ein Blitz physikalisch?", a:["Feuer", "Elektrische Entladung", "Plasma ohne Strom"], correct: 1 },
+    { q: "Was ist näher an der Erde?", a:["Mond", "Satelliten", "Kommt darauf an – viele Satelliten sind näher"], correct: 2 },
+    //Finale Fragen
     { q:"Du hast dir nun dein Geschenk verdient!", a:["Ruf Philipp 🗣️📢"], correct:0 },
     { q:"Hier gehts zum Geschenk?", a:["Klick hier"], correct:0 }
 ];
+
 
 let current = 0;
 
@@ -234,8 +312,8 @@ function startSpeedChallenge() {
 
   let clicks = 0;
   let seconds = 5; // Dauer
-  const minClicks = 35;
-  const maxClicks = 50;
+  const minClicks = 50;
+  const maxClicks = 70;
 
   countSpan.textContent = "0";
   clicks = 0;
@@ -374,7 +452,7 @@ function startEmojiCatcher() { showOnly("emoji-container");
   const area = document.getElementById("emoji-area");
   const countSpan = document.getElementById("emoji-count");
   let caught = 0;
-  const target = 5;
+  const target = 20;
   let activeEmojis = [];
 
   countSpan.textContent = caught;
@@ -457,7 +535,7 @@ function startFlashGame() {
         if (userInput.length === sequence.length) {
           alert("Super! 🎉 Du hast die Sequenz richtig! Weiter zum Quiz!");
           showOnly("quiz-container");
-          startMaze();
+          startQuiz();
         }
       } else {
         alert("Falsch 😢 Versuch es nochmal!");
@@ -493,82 +571,3 @@ function startFlashGame() {
   index = 0;
   progressSpan.textContent = index;
 }
-
-
-let maze = [];
-let playerPos = { row: 0, col: 0 };
-
-const startMazeLayout = [
-    ["S",0,1,0,0],
-    [1,0,1,0,1],
-    [0,0,0,0,1],
-    [0,1,1,0,0],
-    [0,0,0,1,"E"]
-];
-
-function startMaze() {
-    showOnly("maze-container");
-
-    maze = JSON.parse(JSON.stringify(startMazeLayout)); // Kopie des Layouts
-    playerPos = { row: 0, col: 0 };
-    renderMaze();
-}
-
-function renderMaze() {
-    const grid = document.getElementById("maze-grid");
-    grid.innerHTML = "";
-
-    for(let r=0; r<maze.length; r++) {
-        for(let c=0; c<maze[r].length; c++) {
-            const cell = document.createElement("div");
-            cell.classList.add("cell");
-
-            if(r === playerPos.row && c === playerPos.col) {
-                cell.classList.add("player");
-                cell.textContent = "😀";
-            } else if(maze[r][c] === 1) {
-                cell.classList.add("wall");
-            } else if(maze[r][c] === "E") {
-                cell.classList.add("exit");
-                cell.textContent = "🏁";
-            } else {
-                cell.classList.add("path");
-            }
-
-            grid.appendChild(cell);
-        }
-    }
-}
-
-function movePlayer(direction) {
-    let newRow = playerPos.row;
-    let newCol = playerPos.col;
-
-    if(direction === "up") newRow--;
-    else if(direction === "down") newRow++;
-    else if(direction === "left") newCol--;
-    else if(direction === "right") newCol++;
-
-    if(newRow<0 || newRow>=maze.length || newCol<0 || newCol>=maze[0].length) return; // außerhalb
-    if(maze[newRow][newCol] === 1) return; // Wand
-
-    playerPos = { row: newRow, col: newCol };
-    renderMaze();
-
-    if(maze[newRow][newCol] === "E") {
-        setTimeout(() => {
-            alert("🎉 Labyrinth geschafft!🎉 Du hast die Sequenz richtig! Weiter zum Quiz!");
-            showOnly("quiz-container");
-            startQuiz();
-        }, 100);
-    }
-}
-
-
-// Pfeiltasten-Listener ans Ende
-document.addEventListener("keydown", (e) => {
-    if(e.key === "ArrowUp") movePlayer("up");
-    else if(e.key === "ArrowDown") movePlayer("down");
-    else if(e.key === "ArrowLeft") movePlayer("left");
-    else if(e.key === "ArrowRight") movePlayer("right");
-});
