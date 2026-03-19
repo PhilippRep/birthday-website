@@ -455,9 +455,9 @@ function startFlashGame() {
         index++;
         progressSpan.textContent = index;
         if (userInput.length === sequence.length) {
-          alert("Super! 🎉 Du hast die Sequenz richtig! Weiter zum Quiz!");
+          alert("Super! 🎉 Du hast die Sequenz richtig! Weiter zum Puzzle!");
           showOnly("quiz-container");
-          startQuiz();
+          startPuzzle();
         }
       } else {
         alert("Falsch 😢 Versuch es nochmal!");
@@ -492,4 +492,159 @@ function startFlashGame() {
   userInput = [];
   index = 0;
   progressSpan.textContent = index;
+}
+
+
+function startPuzzle() {
+  showOnly("puzzle-container");
+
+  const puzzleContainer = document.getElementById("puzzle-container");
+  const puzzleGrid = document.getElementById("puzzle-grid");
+  const puzzlePiecesContainer = document.getElementById("puzzle-pieces");
+  const puzzleCount = document.getElementById("puzzle-count");
+
+  puzzleGrid.innerHTML = "";
+  puzzlePiecesContainer.innerHTML = "";
+  puzzleCount.textContent = "0";
+
+  const imagePath = "DSCF5081.jpg"; // dein Bild
+  const rows = 2;
+  const cols = 2;
+  const totalPieces = rows * cols;
+
+  let correctCount = 0;
+
+  // Slots erstellen
+  for (let i = 0; i < totalPieces; i++) {
+    const slot = document.createElement("div");
+    slot.classList.add("puzzle-slot");
+    slot.dataset.index = i;
+    slot.addEventListener("dragover", (e) => e.preventDefault());
+    slot.addEventListener("drop", dropPiece);
+    puzzleGrid.appendChild(slot);
+  }
+
+  // Puzzle-Teile erstellen
+  const pieces = [];
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const piece = document.createElement("img");
+      piece.src = imagePath;
+      piece.classList.add("puzzle-piece");
+      piece.draggable = true;
+
+      piece.style.objectFit = "cover";
+      piece.style.width = "120px";
+      piece.style.height = "120px";
+      piece.style.position = "relative";
+      piece.style.objectPosition = `${-(c*120)}px ${-(r*120)}px`;
+
+      piece.dataset.index = r*cols + c;
+
+      piece.addEventListener("dragstart", dragStart);
+      piece.addEventListener("touchstart", touchStart, {passive:false});
+      piece.addEventListener("touchmove", touchMove, {passive:false});
+      piece.addEventListener("touchend", touchEnd);
+
+      pieces.push(piece);
+    }
+  }
+
+  // Shuffle und anzeigen
+  pieces.sort(() => Math.random() - 0.5).forEach(p => puzzlePiecesContainer.appendChild(p));
+
+  let draggedPiece = null;
+
+  function dragStart(e) {
+    draggedPiece = this;
+  }
+
+  function dropPiece(e) {
+    if (!draggedPiece) return;
+    const slotIndex = parseInt(this.dataset.index);
+    const pieceIndex = parseInt(draggedPiece.dataset.index);
+
+    if (slotIndex === pieceIndex) {
+      this.appendChild(draggedPiece);
+      draggedPiece.style.position = "absolute";
+      draggedPiece.style.top = "0";
+      draggedPiece.style.left = "0";
+      draggedPiece.draggable = false;
+      correctCount++;
+      puzzleCount.textContent = correctCount;
+
+      if (correctCount === totalPieces) {
+        setTimeout(() => {
+          alert("Puzzle gelöst! 🎉 Weiter zum Quiz!");
+          puzzleContainer.style.display = "none";
+          showOnly("quiz-container");
+          startQuiz();
+        }, 300);
+      }
+    }
+    draggedPiece = null;
+  }
+
+  // Mobile Touch Handlers
+  let touchOffsetX = 0;
+  let touchOffsetY = 0;
+
+  function touchStart(e) {
+    e.preventDefault();
+    draggedPiece = this;
+    const touch = e.touches[0];
+    const rect = draggedPiece.getBoundingClientRect();
+    touchOffsetX = touch.clientX - rect.left;
+    touchOffsetY = touch.clientY - rect.top;
+    draggedPiece.style.position = "absolute";
+    draggedPiece.style.zIndex = "1000";
+  }
+
+  function touchMove(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    draggedPiece.style.left = (touch.clientX - touchOffsetX) + "px";
+    draggedPiece.style.top = (touch.clientY - touchOffsetY) + "px";
+  }
+
+  function touchEnd(e) {
+    const slots = document.querySelectorAll(".puzzle-slot");
+    let placed = false;
+    slots.forEach(slot => {
+      const rect = slot.getBoundingClientRect();
+      const pieceRect = draggedPiece.getBoundingClientRect();
+      if (
+        pieceRect.left + pieceRect.width/2 > rect.left &&
+        pieceRect.right - pieceRect.width/2 < rect.right &&
+        pieceRect.top + pieceRect.height/2 > rect.top &&
+        pieceRect.bottom - pieceRect.height/2 < rect.bottom
+      ) {
+        // Prüfen ob korrekt
+        if (parseInt(slot.dataset.index) === parseInt(draggedPiece.dataset.index)) {
+          slot.appendChild(draggedPiece);
+          draggedPiece.style.position = "absolute";
+          draggedPiece.style.top = "0";
+          draggedPiece.style.left = "0";
+          draggedPiece.draggable = false;
+          correctCount++;
+          puzzleCount.textContent = correctCount;
+          placed = true;
+
+          if (correctCount === totalPieces) {
+            setTimeout(() => {
+              alert("Puzzle gelöst! 🎉 Weiter zum Quiz!");
+              puzzleContainer.style.display = "none";
+              showOnly("quiz-container");
+              startQuiz();
+            }, 300);
+          }
+        }
+      }
+    });
+    if (!placed) {
+      draggedPiece.style.position = "relative";
+    }
+    draggedPiece.style.zIndex = "1";
+    draggedPiece = null;
+  }
 }

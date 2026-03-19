@@ -196,3 +196,42 @@ pointer-events:none;
 .flash-buttons button:hover {
   background: #b29cff;
 }
+
+#puzzle-area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+#puzzle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 120px);
+  grid-template-rows: repeat(2, 120px);
+  gap: 5px;
+  margin-right: 20px;
+}
+
+.puzzle-slot {
+  width: 120px;
+  height: 120px;
+  background: #f3e8dc;
+  border-radius: 12px;
+  border: 2px dashed #cbb8ff;
+  position: relative;
+}
+
+#puzzle-pieces {
+  display: grid;
+  grid-template-columns: repeat(2, 120px);
+  gap: 5px;
+}
+
+.puzzle-piece {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
