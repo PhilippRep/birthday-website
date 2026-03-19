@@ -455,7 +455,7 @@ function startFlashGame() {
         index++;
         progressSpan.textContent = index;
         if (userInput.length === sequence.length) {
-          alert("Super! 🎉 Du hast die Sequenz richtig! Weiter zum Labyrinth!");
+          alert("Super! 🎉 Du hast die Sequenz richtig! Weiter zum Quiz!");
           showOnly("quiz-container");
           startMaze();
         }
@@ -493,6 +493,7 @@ function startFlashGame() {
   index = 0;
   progressSpan.textContent = index;
 }
+
 
 let maze = [];
 let playerPos = { row: 0, col: 0 };
@@ -556,13 +557,15 @@ function movePlayer(direction) {
 
     if(maze[newRow][newCol] === "E") {
         setTimeout(() => {
-            alert("🎉 Labyrinth geschafft! 🎉 Du hast die Sequenz richtig! Weiter zum Quiz!");
+            alert("🎉 Labyrinth geschafft!🎉 Du hast die Sequenz richtig! Weiter zum Quiz!");
             showOnly("quiz-container");
             startQuiz();
         }, 100);
     }
 }
 
+
+// Pfeiltasten-Listener ans Ende
 document.addEventListener("keydown", (e) => {
     if(e.key === "ArrowUp") movePlayer("up");
     else if(e.key === "ArrowDown") movePlayer("down");

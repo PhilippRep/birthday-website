@@ -183,29 +183,26 @@ button {
   background: #b29cff;
 }
 
-#maze-container {
-  text-align: center;
-}
-
 #maze-grid {
   display: grid;
-  grid-template-columns: repeat(5, 50px); /* Anzahl Spalten = maze[0].length */
-  grid-template-rows: repeat(5, 50px);    /* Anzahl Reihen = maze.length */
+  grid-template-columns: repeat(5, 1fr); /* 🔥 statt feste px */
   gap: 3px;
+  width: 90vw; /* passt sich Handy an */
+  max-width: 300px;
   margin: 20px auto;
 }
 
 .cell {
-  width: 50px;
-  height: 50px;
+  aspect-ratio: 1 / 1; /* 🔥 macht perfekte Quadrate */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  border-radius: 6px;
+  font-size: 20px;
 }
 
-.wall { background-color: #444; }
-.path { background-color: #eee; }
-.player { background-color: #6a0dad; color: white; }
-.exit { background-color: #2ecc71; color: white; }
+.wall { background: #555; }
+.path { background: #eee; }
+.player { background: #6c5ce7; color: white; }
+.exit { background: #00b894; color: white; }
+#controls { margin: 15px auto; display: flex; gap: 10px; justify-content: center; }
+#controls button { packground-color: #2ecc71; color: white; }
