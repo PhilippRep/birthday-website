@@ -211,6 +211,7 @@ let questions = [
 let current = 0;
 
 function startQuiz() {
+    current = 0;
     showQuestion();
 }
 
