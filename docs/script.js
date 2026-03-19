@@ -493,7 +493,6 @@ function startFlashGame() {
   index = 0;
   progressSpan.textContent = index;
 }
-
 let draggedPiece = null;
 let correctCount = 0;
 
@@ -504,13 +503,13 @@ function startPuzzle() {
     const puzzlePiecesContainer = document.getElementById("puzzle-pieces");
     const puzzleCount = document.getElementById("puzzle-count");
 
+    // Reset
     puzzleGrid.innerHTML = "";
     puzzlePiecesContainer.innerHTML = "";
     puzzleCount.textContent = "0";
+    correctCount = 0;
 
-    correctCount = 0; // ✅ Reset beim Neustart
-
-    const imagePath = "DSCF5081.jpg"; // <--- dein Bild
+    const imagePath = "DSCF5081.jpg"; // <--- dein Hochkantbild
     const rows = 2;
     const cols = 3;
 
@@ -546,6 +545,7 @@ function startPuzzle() {
                 pieceImg.draggable = true;
                 pieceImg.dataset.index = r * cols + c;
 
+                // Drag Events
                 pieceImg.addEventListener("dragstart", dragStart);
                 pieceImg.addEventListener("touchstart", touchStart, {passive:false});
                 pieceImg.addEventListener("touchmove", touchMove, {passive:false});
@@ -556,12 +556,14 @@ function startPuzzle() {
         }
 
         // Shuffle und anzeigen
-        pieces.sort(() => Math.random() - 0.5).forEach(p => puzzlePiecesContainer.appendChild(p));
+        pieces.sort(() => Math.random() - 0.5)
+              .forEach(p => puzzlePiecesContainer.appendChild(p));
     };
 }
 
 // Drag & Drop
 function dragStart(e) { draggedPiece = this; }
+
 function dropPiece(e) {
     e.preventDefault();
     if (draggedPiece && this.children.length === 0) {
@@ -576,6 +578,7 @@ function dropPiece(e) {
 
 // Touch Events
 let touchOffsetX = 0, touchOffsetY = 0;
+
 function touchStart(e) {
     e.preventDefault();
     draggedPiece = this;
@@ -624,4 +627,4 @@ function touchEnd(e) {
     });
     if (!placed) document.getElementById("puzzle-pieces").appendChild(draggedPiece);
     draggedPiece = null;
-}
+}}

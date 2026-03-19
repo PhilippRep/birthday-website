@@ -183,45 +183,41 @@ button {
   background: #b29cff;
 }
 
+#puzzle-container {
+  text-align: center;
+}
 
-#puzzle-area {
+#puzzle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(2, 150px);
+  gap: 5px;
+  justify-content: center;
+  margin: 20px auto;
+  background: #eee; /* Platzhalter Hintergrund */
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.puzzle-slot {
+  background: #ddd;
+  border: 2px dashed #bbb;
+  border-radius: 8px;
+  position: relative;
+}
+
+#puzzle-pieces {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 15px;
 }
-#puzzle-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 5px;
-    margin: 15px 0;
-    width: 100%;
-    aspect-ratio: 3/2; /* sorgt für korrektes Verhältnis */
-    background: #eee;
-    border-radius: 12px;
-    position: relative;
-}
-
-.puzzle-slot {
-    border: 2px dashed #cbb8ff;
-    border-radius: 8px;
-    position: relative;
-}
-
-#puzzle-pieces {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 5px;
-    margin-top: 15px;
-}
 
 .puzzle-piece {
-    width: 100px;
-    height: auto;
-    cursor: grab;
-    touch-action: none;
-    border-radius: 8px;
-    user-select: none;
+  width: 100px;
+  height: 150px;
+  margin: 3px;
+  cursor: grab;
+  border-radius: 8px;
+  touch-action: none;
 }
