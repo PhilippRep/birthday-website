@@ -203,6 +203,7 @@ pointer-events:none;
     grid-template-rows: repeat(5, 50px);
     gap: 4px;
     margin: 20px auto;
+    width: max-content;
 }
 
 .cell {
