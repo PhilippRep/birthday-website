@@ -110,9 +110,7 @@ function checkMatch() {
    if (matched === memoryCards.length) {
         setTimeout(() => {
             alert("Memory abgeschlossen! 🎉 Jetzt geht's zur Speed-Challenge!");
-            document.getElementById("memory-container").style.display = "none";
-
-            // Speed-Challenge starten
+            showOnly("speed-container");
             startSpeedChallenge();
 
         }, 300);
@@ -217,8 +215,10 @@ function launchConfetti(){
 }
 
 function goToMemory() {
-    document.getElementById("start-container").style.display = "none";
-    document.getElementById("memory-container").style.display = "block";
+  showOnly("memory-container");
+
+  // Bilder ausblenden
+  document.querySelector(".images-top").style.display = "none";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // KLICK SPEED CHALLENGE
 // ======================
 
-function startSpeedChallenge() {
+function startSpeedChallenge() {showOnly("speed-container");
   const speedContainer = document.getElementById("speed-container");
   const clickBtn = document.getElementById("speed-click-btn");
   const countSpan = document.getElementById("click-count");
@@ -258,10 +258,9 @@ function startSpeedChallenge() {
 
       // Erfolg prüfen
       if (clicks >= minClicks && clicks <= maxClicks) {
-        alert(`Super! Du hast ${clicks} Klicks geschafft! Weiter zum Quiz 🎉`);
+        alert(`Super! Du hast ${clicks} Klicks geschafft! Weiter zum Button Game 🎉`);
         speedContainer.style.display = "none";
-        document.getElementById("quiz-container").style.display = "block";
-        startQuiz();
+        startMovingGame();
       } else {
         alert(`Schade 😢 Du hattest ${clicks} Klicks. Versuch's noch einmal!`);
         startSpeedChallenge(); // nochmal starten
@@ -274,4 +273,106 @@ function startSpeedChallenge() {
     clicks++;
     countSpan.textContent = clicks;
   };
+}
+// ======================
+// MOVING BUTTON GAME (HARD MODE 😈)
+// ======================
+
+function startMovingGame() {showOnly("move-container");
+  const container = document.getElementById("move-container");
+  const btn = document.getElementById("move-btn");
+  const area = document.getElementById("move-area");
+  const counter = document.getElementById("hit-count");
+
+  let hits = 0;
+  const targetHits = 4;
+
+  let size = 1; // Startgröße
+  let speed = 1; // Geschwindigkeit
+
+  container.style.display = "block";
+  counter.textContent = "0";
+
+  function moveButton() {
+    const maxX = area.clientWidth - btn.offsetWidth;
+    const maxY = area.clientHeight - btn.offsetHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+  }
+
+  function spawnFakeButton() {
+    const fake = document.createElement("button");
+    fake.textContent = "😜";
+    fake.classList.add("fake-btn");
+
+    const maxX = area.clientWidth - 60;
+    const maxY = area.clientHeight - 40;
+
+    fake.style.left = Math.random() * maxX + "px";
+    fake.style.top = Math.random() * maxY + "px";
+
+    fake.onclick = (e) => {
+      e.preventDefault();
+      alert("Falsch 😜");
+    };
+
+    area.appendChild(fake);
+
+    // Fake Button nach kurzer Zeit entfernen
+    setTimeout(() => {
+      fake.remove();
+    }, 1500);
+  }
+
+  // Startposition
+  moveButton();
+
+  // Bewegung
+  btn.onmouseover = () => {
+    for (let i = 0; i < speed; i++) moveButton();
+  };
+
+  btn.ontouchstart = () => {
+    for (let i = 0; i < speed; i++) moveButton();
+  };
+
+  // Klick
+  btn.onclick = (e) => {
+    e.preventDefault();
+
+    hits++;
+    counter.textContent = hits;
+
+    // 🔻 wird kleiner
+    size -= 0.15;
+    if (size < 0.5) size = 0.5;
+    btn.style.transform = `scale(${size})`;
+
+    // ⚡ wird schneller
+    speed++;
+
+    // 👻 Fake Buttons spawnen
+    spawnFakeButton();
+
+    moveButton();
+
+    if (hits >= targetHits) {
+      alert("DU HAST IHN GEFANGEN 😈🔥 Weiter zum Quiz!");
+
+      container.style.display = "none";
+      showOnly("quiz-container");
+      startQuiz();;
+    }
+  };
+}
+
+function showOnly(id) {
+  document.querySelectorAll(".container").forEach(c => {
+    c.style.display = "none";
+  });
+  document.getElementById(id).style.display = "block";
 }
