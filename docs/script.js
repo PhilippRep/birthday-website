@@ -627,4 +627,4 @@ function touchEnd(e) {
     });
     if (!placed) document.getElementById("puzzle-pieces").appendChild(draggedPiece);
     draggedPiece = null;
-}}
+}
