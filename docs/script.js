@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // KLICK SPEED CHALLENGE
 // ======================
 
-function startSpeedChallenge() {{showOnly("speed-container")
+function startSpeedChallenge() {showOnly("speed-container");
   const speedContainer = document.getElementById("speed-container");
   const clickBtn = document.getElementById("speed-click-btn");
   const countSpan = document.getElementById("click-count");
@@ -274,7 +274,9 @@ function startSpeedChallenge() {{showOnly("speed-container")
 // MOVING BUTTON GAME (HARD MODE 😈)
 // ======================
 
-function startMovingGame() {showOnly("move-container");
+function startMovingGame() {
+  showOnly("move-container");
+}
   const container = document.getElementById("move-container");
   const btn = document.getElementById("move-btn");
   const area = document.getElementById("move-area");
