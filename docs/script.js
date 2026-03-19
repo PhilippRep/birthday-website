@@ -264,10 +264,15 @@ function startSpeedChallenge() {showOnly("speed-container");
   }, 1000);
 
   // Klick-Handler
-  clickBtn.onclick = () => {
+clickBtn.onclick = (e) => {
+    e.preventDefault();
     clicks++;
     countSpan.textContent = clicks;
-  };
+}
+clickBtn.ontouchstart = (e) => {
+    e.preventDefault();
+    clicks++;
+    countSpan.textContent = clicks;
 }
 
 // ======================
@@ -276,7 +281,7 @@ function startSpeedChallenge() {showOnly("speed-container");
 
 function startMovingGame() {
   showOnly("move-container");
-}
+
   const container = document.getElementById("move-container");
   const btn = document.getElementById("move-btn");
   const area = document.getElementById("move-area");
@@ -284,7 +289,6 @@ function startMovingGame() {
 
   let hits = 0;
   const targetHits = 4;
-
   let size = 1; // Startgröße
   let speed = 1; // Geschwindigkeit
 
@@ -294,12 +298,8 @@ function startMovingGame() {
   function moveButton() {
     const maxX = area.clientWidth - btn.offsetWidth;
     const maxY = area.clientHeight - btn.offsetHeight;
-
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    btn.style.left = x + "px";
-    btn.style.top = y + "px";
+    btn.style.left = Math.random() * maxX + "px";
+    btn.style.top = Math.random() * maxY + "px";
   }
 
   function spawnFakeButton() {
@@ -309,7 +309,6 @@ function startMovingGame() {
 
     const maxX = area.clientWidth - 60;
     const maxY = area.clientHeight - 40;
-
     fake.style.left = Math.random() * maxX + "px";
     fake.style.top = Math.random() * maxY + "px";
 
@@ -319,51 +318,36 @@ function startMovingGame() {
     };
 
     area.appendChild(fake);
-
-    // Fake Button nach kurzer Zeit entfernen
-    setTimeout(() => {
-      fake.remove();
-    }, 1500);
+    setTimeout(() => fake.remove(), 1500);
   }
 
   // Startposition
   moveButton();
 
   // Bewegung
-  btn.onmouseover = () => {
-    for (let i = 0; i < speed; i++) moveButton();
-  };
+  btn.onmouseover = () => { for (let i=0; i<speed; i++) moveButton(); }
 
-  btn.ontouchstart = () => {
-    for (let i = 0; i < speed; i++) moveButton();
+  btn.ontouchstart = (e) => {
+    e.preventDefault(); // 🔹 verhindert Scroll/Zoom auf iOS/Android
+    for (let i=0; i<speed; i++) moveButton();
   };
 
   // Klick
   btn.onclick = (e) => {
     e.preventDefault();
-
     hits++;
     counter.textContent = hits;
-
-    // 🔻 wird kleiner
     size -= 0.15;
     if (size < 0.5) size = 0.5;
     btn.style.transform = `scale(${size})`;
-
-    // ⚡ wird schneller
     speed++;
-
-    // 👻 Fake Buttons spawnen
     spawnFakeButton();
-
     moveButton();
-
     if (hits >= targetHits) {
       alert("DU HAST IHN GEFANGEN 😈🔥 Weiter zum Quiz!");
-
       container.style.display = "none";
       showOnly("quiz-container");
-      startQuiz();;
+      startQuiz();
     }
   };
 }

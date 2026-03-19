@@ -365,7 +365,7 @@ function startMovingGame() {showOnly("move-container");
 
       container.style.display = "none";
       showOnly("quiz-container");
-      startQuiz();;
+      startEmojiCatcher();
     }
   };
 }
@@ -375,4 +375,64 @@ function showOnly(id) {
     c.style.display = "none";
   });
   document.getElementById(id).style.display = "block";
+}
+
+// Emoyi Catcher Mini Game
+function startEmojiCatcher() { showOnly("emoji-container");
+  const area = document.getElementById("emoji-area");
+  const countSpan = document.getElementById("emoji-count");
+  let caught = 0;
+  const target = 5;
+  let activeEmojis = [];
+
+  countSpan.textContent = caught;
+
+  function spawnEmoji() {
+    const emoji = document.createElement("div");
+    emoji.className = "emoji";
+    emoji.textContent = ["🍀","🎉","💜","⭐","🍓"][Math.floor(Math.random()*5)];
+    emoji.style.left = Math.random() * (area.clientWidth - 40) + "px";
+    emoji.style.top = "0px";
+    area.appendChild(emoji);
+    activeEmojis.push(emoji);
+
+    const fallSpeed = Math.random() * 2 + 1; // 1-3 px/frame
+
+    function fall() {
+      const top = parseFloat(emoji.style.top);
+      if (top >= area.clientHeight - 40) {
+        // Emoji verpasst
+        emoji.remove();
+        activeEmojis = activeEmojis.filter(e => e!==emoji);
+        return;
+      }
+      emoji.style.top = top + fallSpeed + "px";
+      requestAnimationFrame(fall);
+    }
+    fall();
+
+    // Klick
+    emoji.onclick = () => {
+      caught++;
+      countSpan.textContent = caught;
+      emoji.remove();
+      activeEmojis = activeEmojis.filter(e => e!==emoji);
+
+      // Schwierigkeit erhöhen
+      spawnEmoji();
+      if (caught >= target) {
+        alert("Super! Du hast die Emojis gefangen! 🎉 Weiter zum Quiz!");
+        showOnly("quiz-container");
+        startQuiz();
+      }
+    };
+  }
+
+  // Start Emojis spawnen
+  for (let i=0;i<3;i++) spawnEmoji();
+  // Alle 1,5 Sekunden ein neues Emoji
+  const spawnInterval = setInterval(() => {
+    if (caught >= target) clearInterval(spawnInterval);
+    spawnEmoji();
+  }, 1500);
 }
