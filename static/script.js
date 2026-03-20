@@ -130,7 +130,7 @@ let questions = [
     { q: "Was ist ein Kiwi?", a:["Säugetier", "Vogel", "Reptil"], correct: 1 },
     { q: "Warum gelten Esel als stur?", a:["Faulheit", "Aggressivität", "Vorsicht"], correct: 2 },
     { q: "Wie viele Mägen hat eine Kuh?", a:["Vier", "Einen mit vier Kammern", "Zwei"], correct: 1 },
-    { q: "Welches Tier gilt als unterschätzt intelligent?", a:["Esel, "Kuh", ", "Schaf"], correct: 0 },
+    { q: "Welches Tier gilt als unterschätzt intelligent?", a:["Esel", "Kuh", "Schaf"], correct: 0 },
     { q: "Was ist der rote Teil der Erdbeere?", a:["Fruchtfleisch", "Scheinfrucht", "Samen"], correct: 1 },
     { q: "Warum war der Film: Titanic erfolgreich?", a:["Effekte", "Mix aus allem", "Keine Konkurrenz"], correct: 1 },
     { q: "Warum produzieren Kühe Methan?", a:["Luft", "Bewegung", "Mikroorganismen"], correct: 2 },
