@@ -3,7 +3,7 @@
 // =======================
 
 const startImages = [
-    { src: "DSCF5081.jpg", style: { top:"5vh", left:"50%", transform:"translateX(-50%)" } },
+    { src: "DSCF5081.jpg", style: { top:"3vh", left:"50%", transform:"translateX(-50%)" } },
     { src: "DSCF3972.jpg", style: { bottom:"0px", left:"5%" } },
     { src: "DSCF2395.jpg", style: { bottom:"0px", right:"5%" } }
 ];
